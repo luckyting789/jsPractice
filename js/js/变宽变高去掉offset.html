@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            margin: 20px;
+            float: left;
+            border: 5px solid black;
+            font-size:20px;
+            line-height: 200px;
+            text-align: center;
+        }
+    </style>
+
+
+    <script>
+
+
+        window.onload = function () {
+            var odiv = document.getElementsByTagName('div');
+
+            odiv[0].onmouseover = function () {
+                startMove(this, 'width', 400);
+            }
+            odiv[0].onmouseout = function () {
+                startMove(this, 'width', 200);
+            }
+
+            odiv[1].onmouseover = function () {
+                startMove(this, 'height', 400);
+            }
+            odiv[1].onmouseout = function () {
+                startMove(this, 'height', 200);
+            }
+
+            odiv[2].onmouseover = function () {
+                startMove(this, 'font-size', 40);
+            }
+            odiv[2].onmouseout = function () {
+                startMove(this, 'font-size', 20);
+            }
+
+            odiv[3].onmouseover = function () {
+                startMove(this, 'borderWidth', 20);
+            }
+            odiv[3].onmouseout = function () {
+                startMove(this, 'borderWidth', 5);
+            }
+
+
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+
+            }
+
+            var timer = null;
+            function startMove(obj, attr, iTarget) {
+                clearInterval(obj.timer)
+                obj.timer = setInterval(function () {
+                    var cur = parseInt(getStyle(obj, attr))
+                    var speed = (iTarget - cur) / 6;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    if (cur == iTarget) {
+                        clearInterval(obj.timer);
+
+                    } else {
+                        obj.style[attr] = cur + speed + 'px';
+                    }
+                }, 30)
+            }
+
+            }
+
+    </script>
+</head>
+
+<body>
+    <div>变宽</div>
+    <div>变高</div>
+    <div>易烊千玺</div>
+    <div></div>
+</body>
+
+</html>

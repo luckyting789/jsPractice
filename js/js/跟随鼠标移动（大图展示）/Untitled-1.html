@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: black;
+        }
+
+        #box {
+            width: 400px;
+            position: relative;
+            top: 200px;
+            left: 200px;
+        }
+
+        #up {
+            width: 392px;
+            height: 40px;
+            background: rgb(34, 34, 34);
+            border: 2px solid white;
+            cursor: move;
+        }
+
+        #up span {
+            width: 125px;
+            height: 40px;
+            line-height: 42px;
+            text-align: center;
+            display: inline-block;
+            float: right;
+            cursor: pointer;
+            font-size: 13px;
+            color: white;
+            transition: all 1s linear;
+        }
+
+        #down {
+            width: 392px;
+            height: 110px;
+            background: rgb(51, 51, 51);
+            border: 2px solid white;
+            border-top: none;
+        }
+
+        #down p {
+            color: white;
+            font-size: 13px;
+            padding-top: 15px;
+            margin-left: 10px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var oBox = document.getElementById('box'),
+                up = document.getElementById('up'),
+                span = up.getElementsByTagName('span')[0],
+                p = document.getElementsByTagName('p');
+            var disL, disT, l, t;
+            var drag = false;
+            var timer;
+            var arr = [{ x: oBox.offsetLeft, y: oBox.offsetTop }];
+
+
+
+            up.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                disL = oEvent.clientX - oBox.offsetLeft;
+                disT = oEvent.clientY - oBox.offsetTop;
+                drag = true;
+                content();
+                document.onmousemove = function (ev) {
+                    var oEvent = ev || event;
+                    l = oEvent.clientX - disL;
+                    t = oEvent.clientY - disT;
+                    if (l <= 0) {
+                        l = 0;
+                    } else if (l >= window.innerWidth - oBox.offsetWidth) {
+                        l = window.innerWidth - oBox.offsetWidth;
+                    }
+
+                    if (t <= 0) {
+                        t = 0;
+                    } else if (t > window.innerHeight - oBox.offsetHeight) {
+                        t = window.innerHeight - oBox.offsetHeight;
+                    }
+
+                    oBox.style.left = l + 'px';
+                    oBox.style.top = t + 'px';
+                    arr.push({ x: l, y: t });
+                    content();
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                    drag = false;
+                    p[0].innerHTML = "Drag：" + drag;
+                }
+                return false;
+            }
+
+
+
+            span.onclick = function () {
+                drag = false;
+                if (arr.length == 1) return;
+                timer = setInterval(function () {
+                    var arr1 = arr.pop();
+                    if (arr1) {
+                        oBox.style.left = arr1.x + 'px';
+                        oBox.style.top = arr1.y + 'px';
+                    } else {
+                        clearInterval(timer);
+                    }
+                    content();
+                }, 30)
+                return false;
+            }
+
+            function content() {
+                p[0].innerHTML = "Drag：" + drag;
+                p[1].innerHTML = "offsetTop：" + oBox.offsetTop;
+                p[2].innerHTML = "offsetLeft" + oBox.offsetLeft;
+            }
+            content();
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <div id="up">
+            <span>点击回放拖动轨迹</span>
+        </div>
+        <div id="down">
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+    </div>
+</body>
+
+</html>

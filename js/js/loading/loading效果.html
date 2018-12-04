@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        div,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        body {
+            font: 12px/1.5 \5fae\8f6f\96c5\9ed1;
+        }
+
+        #big {
+            position: relative;
+            width: 800px;
+            height: auto !important;
+            height: 400px;
+            min-height: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        #title {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #000;
+            color: #fff;
+            opacity: 0.7;
+            filter: alpha(opacity=70);
+            font-size: 20px;
+            height: 50px;
+        }
+
+        #title span {
+            position: absolute;
+            top: 0;
+            padding: 0 5px;
+            line-height: 50px;
+            display: block;
+        }
+
+        #big.loading {
+            background: url("loading.png") no-repeat;
+        }
+
+        #masks_L,
+        #masks_R {
+            position: absolute;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            cursor: pointer;
+            background: orange;
+            opacity: 0;
+        }
+
+        #masks_L {
+            left: 0;
+        }
+
+        #masks_R {
+            right: 0;
+        }
+
+        #btn_L,
+        #btn_R {
+            position: absolute;
+            top: 50%;
+            margin-top: -40px;
+            width: 39px;
+            height: 100px;
+            overflow: hidden;
+            cursor: pointer;
+            text-indent: -9999px;
+            opacity: 0;
+            background-size: 110% 50%;
+            background-repeat: no-repeat;
+        }
+
+        #btn_L {
+            left: 10px;
+            background-image: url("next.png");
+        }
+
+        #btn_R {
+            right: 10px;
+            background: url("front.png");
+            background-size: 110% 50%;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return window.getComputedStyle(obj, false)[name];
+                }
+            }
+
+
+            function startMove(obj, json, fnEnd) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    for (var attr in json) {
+                        var cur = 0;
+                        var bStop = true;
+                        if (attr == "opacity") {
+                            cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+                        } else {
+                            cur = parseInt(getStyle(obj, attr));
+                        }
+                        var speed = (json[attr] - cur) / 6;
+                        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+
+                        if (cur != json[attr]) {
+                            bStop = false;
+                        }
+                        if (attr == "opacity") {
+                            obj.style.opacity = (cur + speed) / 100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+                    }
+                    if (bStop) {
+                        clearInterval(obj.timer);
+                        if (fnEnd) fnEnd();
+                    }
+                }, 30)
+            }
+
+            var oBig = document.getElementById("big");
+            var oMasksL = document.getElementById("masks_L");
+            var oMasksR = document.getElementById("masks_R");
+            var oBtnL = document.getElementById("btn_L");
+            var oBtnR = document.getElementById("btn_R");
+            var oTitle = document.getElementById("title");
+            var oSpan = oTitle.getElementsByTagName("span")[0];
+            console.log(oSpan.innerHTML);
+
+            oMasksL.onmouseover = function () {
+                startMove(oBtnL, { "opacity": 100 });
+            }
+
+            oMasksL.onmouseout = function () {
+                startMove(oBtnL, { "opacity": 0 })
+            }
+
+            oBtnL.onmouseover = function () {
+                startMove(oBtnL, { "opacity": 100 });
+            }
+
+            oMasksR.onmouseover = function () {
+                startMove(oBtnR, { "opacity": 100 });
+            }
+
+            oMasksR.onmouseout = function () {
+                startMove(oBtnR, { "opacity": 0 });
+            }
+
+            oBtnR.onmouseover = function () {
+                startMove(oBtnR, { "opacity": 100 });
+            }
+            var iNow = 0;
+            oBtnL.onclick = function () {
+
+                if (iNow <= 0) {
+                    alert("前面没有图片了！")
+                    return;
+                }
+                iNow--;
+                loadImg();
+            };
+
+            oBtnR.onclick = function () {
+                if (iNow >= aData.length - 1) {
+                    alert("这是最后一张图片了！")
+                    return;
+                }
+                iNow++;
+                loadImg();
+            };
+
+
+            var aData = [
+                { "imgSrc": "http://img1.gtimg.com/news/pics/hv1/106/238/825/53706421.jpg", "title": "7月26日，吊车将事故现场的车头残片吊至大型运输车辆上。" },
+                { "imgSrc": "http://img1.gtimg.com/news/pics/hv1/105/238/825/53706420.jpg", "title": "7月26日，一辆大卡车准备驶离事故现场。" },
+                { "imgSrc": "http://img1.gtimg.com/news/pics/hv1/101/238/825/53706416.jpg", "title": "7月26日，工人在给最后一节车厢盖上彩条布，准备运离现场。" },
+                { "imgSrc": "http://img1.gtimg.com/news/pics/hv1/99/238/825/53706414.jpg", "title": "7月26日，一名工人在事故现场最后一节车厢上作业。" },
+                { "imgSrc": "http://img1.gtimg.com/news/pics/hv1/100/238/825/53706415.jpg", "title": "7月26日，工人在给最后一节车厢盖上彩条布，准备运离现场。" }
+
+            ];
+
+            //将图片和标题插入
+
+            loadImg();
+            function loadImg() {
+                oBig.className = "loading";
+                oSpan.style.opacity = oSpan.style.height = 0;
+                var oImg = document.getElementsByTagName('img');
+                oImg[0] && oBig.removeChild(oImg[0]);
+                var oTemp = document.createElement('img');
+                var oNewImg = new Image();
+                oNewImg.onload = function () {
+                    oBig.className = "";
+                    oTemp.src = this.src;
+                    oBig.appendChild(oTemp);
+                    oTemp.style.width = (oTemp.offsetWidth > 800 ? 800 : oTemp.offsetWidth) + 'px';
+                    oBig.style.height = oTemp.style.height = oTemp.offsetHeight + 'px';
+                    oSpan.innerHTML = aData[iNow].title;
+                    startMove(oSpan, { "height": 50 }, function () {
+                        startMove(oSpan, { "opacity": 100 });
+                    });
+                }
+                oNewImg.src = aData[iNow].imgSrc;
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="big">
+        <div id="masks_L"></div>
+        <div id="masks_R"></div>
+        <div id="btn_L"> </div>
+        <div id="btn_R"> </div>
+        <div id="title">
+            <span></span>
+        </div>
+
+
+    </div>
+</body>
+
+</html>

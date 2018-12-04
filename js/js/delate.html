@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 70px;
+            height: 30px;
+            background: #ccc;
+            color: white;
+            border: 1px solid black;
+            line-height: 30px;
+            font: 13px;
+            text-align: center;
+            margin: 20px 50px;
+            cursor: pointer;
+        }
+
+        .box:hover {
+            background: rgb(59, 18, 155);
+        }
+
+        ul {
+            width: 70px;
+            border: 1px solid black;
+            margin: 0 50px;
+            display: none;
+        }
+
+        ul li {
+            list-style: none;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 3px;
+            padding-left: 3px;
+        }
+
+        ul li:hover {
+            text-decoration: underline;
+            color: blue;
+        }
+
+        .cur {
+            display: block;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+
+            var box = document.getElementsByClassName('box')[0],
+                oUl = document.getElementsByTagName('ul')[0],
+                oLi = document.getElementsByTagName('li');
+
+            var timer;
+            var timer1;
+            box.onmouseover = function () {
+                clearTimeout(timer1);
+                oUl.className = "cur";
+            }
+
+            box.onmouseout = function () {
+                timer = setTimeout(function () {
+                    oUl.className = "";
+                }, 500)
+            }
+
+            oUl.onmouseover = function () {
+                clearTimeout(timer);
+                clearTimeout(timer1);
+                oUl.className = "cur";
+            }
+            oUl.onmouseout = function () {
+                timer1 = setTimeout(function () {
+                    oUl.className = "";
+                }, 500)
+            }
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="box">行业资讯</div>
+    <ul>
+        <li>业界动态</li>
+        <li>收购融资</li>
+        <li>门户动态</li>
+        <li>搜索引擎</li>
+    </ul>
+
+</body>
+
+</html>

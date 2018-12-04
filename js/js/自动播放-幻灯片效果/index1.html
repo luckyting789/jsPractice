@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+
+        #container {
+            width: 300px;
+            border: 1px solid black;
+            height: 300px;
+            position: relative;
+            left: 45%;
+            top: 50px;
+            position: relative;
+        }
+
+        #img-list li {
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            ;
+        }
+
+        #img-list :nth-child(1) {
+            opacity: 1;
+        }
+
+        #circle {
+            width: 100px;
+            height: 20px;
+            position: absolute;
+            left: 750px;
+            top: 320px;
+        }
+
+        #circle #cir-list li {
+            width: 20px;
+            height: 20px;
+            background: orange;
+            opacity: 0.5;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+            border-radius: 50%;
+            float: left;
+            margin-left: 3px;
+            color: white;
+        }
+
+        #circle #cir-list .cur {
+            background: red;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+            }
+
+
+
+            function startMove(obj, json, fnEnd) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    var bStop = true;
+                    for (var attr in json) {
+                        var cur = 0;
+                        if (attr == "opacity") {
+                            cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+                        } else {
+                            cur = parseInt(getStyle(obj.attr));
+                        }
+                        var speed = (json[attr] - cur) / 6;
+                        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                        if (cur != json[attr]) {
+                            bStop = false;
+                        }
+                        if (attr == "opacity") {
+                            obj.style.opacity = (cur + speed) / 100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+
+                    }
+                    if (bStop) {
+                        clearInterval(obj.timer);
+                        if (fnEnd) fnEnd();
+                    }
+
+                }, 30)
+            }
+
+
+
+
+            var container = document.getElementById('container');
+            var oImgLi = container.getElementsByTagName('li');
+            var num = 0;
+            var circleList = document.getElementById('cir-list');
+            var oCircleLi = circleList.getElementsByTagName('li');
+            console.log(oCircleLi.length);
+            var timer;
+            function start() {
+                timer = setInterval(function () {
+                    num++;
+                    if (num > 3) {
+                        num = 0;
+                    }
+                    for (var i = 0; i < oImgLi.length; i++) {
+                        oImgLi[i].style.opacity = 0;
+                        oCircleLi[i].className = "";
+                    }
+                    startMove(oImgLi[num], { "opacity": 100 }, function () { });
+                    oCircleLi[num].className = "cur";
+                }, 1500)
+            }
+
+
+            start();
+            container.onmouseover = function () {
+                clearInterval(timer);
+            }
+
+            container.onmouseout = function () {
+                start();
+            }
+
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div id="container">
+        <ul id="img-list">
+            <li>
+                <img src="img/qian01.jpg" alt="">
+            </li>
+            <li>
+                <img src="img/qian02.jpg" alt="">
+            </li>
+            <li>
+                <img src="img/qian03.jpg" alt="">
+            </li>
+            <li>
+                <img src="img/qian04.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+    <div id="circle">
+        <ul id="cir-list">
+            <li class="cur">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

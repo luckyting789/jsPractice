@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            border: 1px solid #ccc;
+            width: 400px;
+            height: 255px;
+            margin: 50px;
+            position: relative;
+        }
+
+        #box div {
+            width: 100px;
+            height: 100px;
+            background: #ffffcc;
+            opacity: 0.5;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            display: none;
+        }
+
+
+        #box .cur {
+            display: block;
+        }
+
+        #bigbox {
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+            position: relative;
+            top: -300px;
+            left: 600px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .big {
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var oBox = document.getElementById('box'),
+                small = document.getElementsByClassName('small')[0],
+                floatbox = document.getElementsByClassName('floatbox')[0],
+                oBigbox = document.getElementById('bigbox'),
+                big = document.getElementsByClassName('big')[0];
+            var disL, disT, l, t;
+
+
+
+
+            oBox.onmouseover = function (ev) {
+                floatbox.style.display = "block";
+                oBigbox.style.display = "block";
+            }
+
+            oBox.onmouseout = function () {
+                floatbox.style.display = "none";
+                oBigbox.style.display = "block";
+            }
+
+
+
+            floatbox.onmousemove = function (ev) {
+
+                var event = ev || window.event;
+                var left = event.clientX - oBox.offsetLeft - floatbox.offsetWidth / 2;
+                var top = event.clientY - oBox.offsetTop - floatbox.offsetHeight / 2;
+                
+
+                if(left < 0){
+                    left = 0;
+                }else if(left > oBox.offsetWidth - floatbox.offsetWidth){
+                    left = oBox.offsetWidth - floatbox.offsetWidth;
+                }
+
+                if(top < 0) {
+                    top = 0;
+                }else if(top > oBox.offsetHeight - floatbox.offsetHeight){
+                    top = oBox.offsetHeight - floatbox.offsetHeight;
+                }
+
+                floatbox.style.left = left + 'px';
+                floatbox.style.top = top + 'px';
+
+                var x = left / (oBox.offsetWidth - floatbox.offsetWidth);
+                var y = top / (oBox.offsetHeight - floatbox.offsetHeight);
+
+                big.style.left = - (big.offsetWidth - oBigbox.offsetWidth) * x + 'px';
+                big.style.top = -(big.offsetHeight - oBigbox.offsetHeight) * y + 'px';
+
+
+                
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <img class="small" src="macbook-small.jpg" alt="">
+        <div class="floatbox"></div>
+    </div>
+    <div id="bigbox">
+        <img class="big" src="macbook-big.jpg" alt="">
+    </div>
+</body>
+
+</html>

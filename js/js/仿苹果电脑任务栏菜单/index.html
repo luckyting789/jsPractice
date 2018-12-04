@@ -1,0 +1,75 @@
+<!--
+    作者：shsgear@qq.com
+    时间：2016-11-11
+    描述：苹果mac dock任务栏
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>苹果mac dock任务栏</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {}
+
+        #img_list {
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+            text-align: center;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="img_list">
+        <img src="img/01.png" />
+        <img src="img/02.png" />
+        <img src="img/03.png" />
+        <img src="img/04.png" />
+        <img src="img/05.png" />
+        <img src="img/06.png" />
+        <img src="img/07.png" />
+        <img src="img/08.png" />
+    </div>
+    <script type="text/javascript">
+        var oDiv = document.getElementById("img_list");
+        var oImg = oDiv.getElementsByTagName('img');
+        var aWidth = [];
+        window.onload = function () {
+            for (var i = 0; i < oImg.length; i++) {          //由于手头没有128*128的图片，所以不得不使用256*256
+                aWidth.push(oImg[i].offsetWidth / 2);                     //先把能变到最大的图标的宽度存起来，都是128px
+                oImg[i].width = Math.round(oImg[i].offsetWidth / 4);            //先让网页图标大小等于64px，是最大的一半
+            }
+            document.onmousemove = function (e) {
+                var e = e || window.e;
+                for (var i = 0; i < oImg.length; i++) {
+                    //直角三角形     b中由于oImg[i].offsetTop是相对于oDiv的offsetParent，只有2px,减或不减影响不大
+                    var a = oImg[i].offsetLeft - e.clientX + oImg[i].offsetWidth / 2;
+                    var b = e.clientY - oDiv.offsetTop - oImg[i].offsetHeight / 2;
+                   
+                
+                    //选择合适的被除数，能使鼠标移动过去图标不会变化的太突兀
+                    var rate = 1 - Math.sqrt(a * a + b * b) / 300;
+                    //使图片在0.5到1之间变化
+                    if (rate < 0.5) rate = 0.5;        //让比率大于0.5，就是在128px*比率，但不能减小到比64px还小
+                    oImg[i].width = aWidth[i] * rate;
+
+                }
+
+
+            }
+
+
+        }
+
+    </script>
+</body>
+
+</html>

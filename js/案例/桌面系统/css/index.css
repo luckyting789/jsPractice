@@ -1,0 +1,167 @@
+*{padding:0;margin:0;}
+	body{font-family:"微软雅黑"}
+	ul,li{list-style:none}
+	a{text-decoration:none}
+	/*start iconfont*/
+	@font-face {
+					font-family: 'iconfont';
+					src: url('../iconfont/iconfont.eot'); /* IE9*/
+					src: url('../iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+					url('../iconfont/iconfont.woff') format('woff'), /* chrome、firefox */
+					url('../iconfont/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+					url('../iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+			}
+	.iconfont{
+				font-family:"iconfont" !important;
+				font-size:16px;font-style:normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+				}
+	/*start backround*/
+	.bg{
+			width:100%;
+			height:100%;
+			position:fixed;
+			top:0;
+			left:0;
+			background:url("../img/bg.jpg") no-repeat;
+			background-size:cover;
+			z-index:-1;
+	    }
+	/*end backround*/
+	/*start menu_box*/
+	#menu_box{
+				width:200px;
+				height:300px;
+				background:#fff;
+				position:fixed;
+				z-index:100;
+				opacity:1;
+				display:none;
+				transition:all 0.8s ease}
+	#menu_box #menu li{
+						padding:10px;
+						border-bottom:1px dashed #aaa;
+						font-family:"微软雅黑";
+						font-size:16px;
+						font-weight:500;
+						cursor:pointer;
+					}
+	#menu_box #menu li:hover i{font-size:24px;color:red}
+	#menu_box #menu li .iconfont{
+						padding-right:10px;
+						font-weight:200;
+						}
+	/*end menu_box*/
+	/*start desk_icon*/
+	.desk_icon{
+				width:60px;
+				padding:10px;
+				display:block;
+				font-size:14px;
+				font-weight:500;
+				color:#fff;
+				}
+	.desk_icon .desk_icon_font{margin-left:10px;}
+	@keyframes file_in{
+		from{transform:scale(1)}
+		50%{transform:scale(0.8)}
+		to{transform:scale(1)}
+	}
+	@keyframes file_out{
+		from{transform:scale(1);opacity:1}
+		25%{transform:scale(0.5);opacity:0.8}
+		50%{transform:scale(0.8);opacity:0.6}
+		75%{transform:scale(0.5);opacity:0.3}
+		to{transform:scale(0);opacity:0}
+	}
+	/*end desk_icon*/
+	/*start Music*/
+		#music_box{width:30%;height:100%;position:absolute;left:200px}
+	#music_console_box{width:550px;height:115px;background:#000;position:absolute;bottom:80px;left:0;
+		border-left:10px solid #fff}
+	#music_icon{width:90px;height:90px;position:absolute;left:10px;top:10px;
+		background:url("../img/咱们结婚吧.jpg") no-repeat top center;background-size:10px 10px;}
+	#music_icon_mask{width:100%;background:rgba(0,0,0,0.4);position:absolute;bottom:0;left:0;}
+	#music_console_box #music_icon_loading{width:40px;height:40px;position:absolute;top:25px;left:30px;color:#0DAD51;font-weight:700;		font-size:20px}
+	#music_detail{width:100px;height:115px;margin-left:110px}
+	#music_console_box #music_control_box{width:240px;height:60px;position:absolute;left:240px;bottom:0;}
+	#music_console_box #music_control_box span{width:40px;height:36px;display:block;float:left;
+		background:url("http://imgcache.gtimg.cn/mediastyle/musicprotal/img/player_bg.png?d=20150305173439") no-repeat;}
+	#music_console_box #music_control_box #prev{background-position:-70px 2px;cursor:pointer}
+	#music_console_box #music_control_box #play{background-position:-108px -45px;cursor:pointer}
+	#music_console_box #music_control_box #next{background-position:-147px 2px;cursor:pointer}
+	#music_console_box #music_control_box #volume{background-position:-185px 2px;cursor:pointer}
+	#music_console_box #music_control_box #volume_control{width:70px;height:10px;background-position:-291px 0px;
+		margin-top:12px;position:relative;cursor:pointer}
+	#music_console_box #music_control_box #volume_control #volume_control_bar{width:8px;height:8px;position:absolute;			top:1px;left:70px;background:#fff;border-radius:50%}
+	/*music_console_box :hover*/
+	#music_console_box #music_control_box #prev:hover{background-position:-70px -29px}
+	#music_console_box #music_control_box #next:hover{background-position:-147px -29px}
+	#music_console_box #music_control_box #volume:hover{background-position:-185px -29px}
+	#music_console_box #music_control_box #volume_control:hover{width:70px;height:10px;background-position:-291px 0px;
+		margin-top:12px}
+	#music_console_box #music_list{width:60px;height:50px;position:absolute;top:5px;right:22px}
+	#music_console_box #music_list span{width:20px;height:20px;margin-left:8px;float:left;display:block;
+		background:url("http://imgcache.gtimg.cn/mediastyle/musicprotal/img/player_bg.png?d=20150305173439") no-repeat;}
+	#music_console_box #music_list #music_list_control{background-position:-224px -102px}
+	#music_console_box #music_list #music_lyric{background-position:-452px 2px}
+	#music_console_box p{font-size:12px;color:#fff;margin-top:10px}
+	#music_console_box #music_player{color:#888}
+	#music_console_box #music_time{color:#888}
+	#slider_switch{width:22px;height:115px;background:url("http://imgcache.gtimg.cn/mediastyle/musicprotal/img/player_bg.png?d=20150305173439") no-repeat -46px -1px;border-top-right-radius:10px;border-bottom-right-radius:10px;
+		position:absolute;right:0;top:0;cursor:pointer;border-top-right-radius:3px;border-bottom-right-radius:3px}
+	#music_list_box{width:530px;height:700px;position:absolute;bottom:195px;left:0;border-left:10px solid #000;
+		border-right:8px solid #0dad51;background:#fff}
+	#music_list_box p{width:530px;height:50px;text-align:center;line-height:50px;color:#fff;font-size:28px;
+		letter-spacing:10px;background:#333}
+	#music_list_box table{width:100%;height:200px;border-collapse:collapse}
+	#music_list_box table td{padding-left:40px;border-top:3px solid #000;}
+	#music_list_box table thead tr td{font-size:18px;color:#000;height:40px}
+	#music_list_box table tbody tr td{width:160px;height:40px;font-size:14px;font-weight:500;color:#000;cursor:pointer}
+	#music_list_box table tbody tr:hover{background:#0dad51;}
+	#music_list_box table tbody tr:hover td{color:#fff}
+	#music_list_box a{width:22px;height:100%;background:#000;display:block;position:absolute;right:-20px;top:0;
+		border-bottom-right-radius:10px;display:none}
+
+	#all_lyrics_box{width:0;height:0;background:#333;position:fixed;overflow:hidden;right:0;top:0;z-index:9999999;}
+	#lyric{display:none}
+	#audio_nanshan{width:530px;height:50px;position:absolute;top:20px;left:50%}
+	#lyric_box{width:530px;height:800px;overflow:hidden;position:absolute;background:url("../img/南山南.jpg") no-repeat;
+		background-size:530px 800px;left:50%;top:80px;border:5px solid transparent}
+	#lyric_box #lyric_list{list-style:none;width:530px;position:absolute;top:240px;transition:all 0.3s linear}
+	#lyric_box #lyric_list li{width:530px;font-size:18px;text-align:center;margin-top:10px;transition:all 0.3s ease;color:#fff}
+	.lyric_btn{width:50px;height:50px;background:#fff;display:block;border-radius:50%;text-align:center;line-height:50px;
+		text-decoration:none;color:#000;font-size:18px;position:absolute;transition:all 0.6s ease}
+	.lyric_btn:hover{text-decoration:underline;background:#000;color:#fff;transition:all 0.6s ease}
+	.lyric_danmu_btn{top:20px;left:10px}
+	.lyric_close_btn{top:20px;right:10px}
+	/*start window_box*/
+	.window_box{width:800px;height:400px;background:#fff;position:fixed;top:200px;left:36%;z-index:1;border:8px solid #5a8bbb;				}
+	.window_box .title_box{width:100%;height:40px;background:#5a8bbb;position:absolute;top:0;left:0;cursor:move;}
+	.window_box .title_box h2{float:left;color:#000;font-size:26px;}
+	.window_box .title_box a{text-decoration:none;float:right;line-height:40px;color:#fff;margin-right:10px;font-size:14px}
+	.window_box .resize{position:absolute;bottom:0;right:0;border-top:10px solid transparent;
+				border-left:10px solid transparent;border-right:10px solid #666;border-bottom:10px solid #666;
+				cursor:nw-resize}
+	/*end window_box*/
+	/*start bottombox*/
+	#bottom_box{width:100%;position:absolute;bottom:0;left:0;text-align:center;z-index:1;padding-bottom:3px;}
+    #bottom_box span{width:50px;display:inline-block;border-radius:50%;cursor:pointer}
+	#bottom_box span img{max-width:100%;border-radius:50%}
+	/*end bottombox*/
+	/*start dm_box*/
+	#dm_open{color:#fff;font-weight:700;font-size:24px;position:absolute;left:200px;top:100px;display:none}
+	#dm_box{width:0;height:0;background:rgba(0,0,0,0.6);position:fixed;top:0;left:0;display:none;z-index:99999999}
+	#dm_box #dm_close{width:30px;height:30px;background:red;font-size:24px;position:absolute;top:10px;right:20px;
+		border-radius:50%;line-height:30px;text-align:center;z-index:2}
+	#dm_box #input_box{width:100%;height:60px;background:#000;position:absolute;bottom:0;left:0;z-index:3}
+	#dm_box #input_box #dm_input_box{width:800px;height:50px;margin:0 auto;position:relative;z-index:3}
+	#dm_box #input_box #dm_input_box #dm_input{width:600px;height:35px;border:0px solid red;display:block;float:left;
+		color:#000;font-size:14px;padding-left:10px;}
+	#dm_box #input_box #dm_input_box #dm_button{width:100px;height:35px;border:1px solid #33cc33;display:block;float:left;
+		background:#3c3;color:#fff;font-size:14px;font-weight:600}
+	#dm_box #dm_body{width:500px;height:30px;position:relative;z-index:1}
+	#dm_box #dm_body p{width:500px;height:100%;position:absolute;color:#fff;font-size:24px}
+	/*end dm_box*/

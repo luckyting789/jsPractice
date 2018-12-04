@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" onselectstart="return false">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>桌面级应用系统--walker</title>
+  <link type="text/css" rel="stylesheet" href="css/tz.css" />
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+ </head>
+ <body>
+	<!--start bg-->
+	<div class="bg"></div>
+	<!--end bg-->
+	<!--start menu-->
+	<div id="menu_box">
+		<ul id="menu">
+			<li><i class="iconfont">&#xe686;</i>New</li>
+			<li><i class="iconfont">&#xe62d;</i>Newfile</li>
+			<li><i class="iconfont">&#xe799;</i>Refresh</li>
+			<li><i class="iconfont">&#xe651;</i>Music</li>
+			<li><i class="iconfont">&#xe637;</i>movie</li>
+			<li><i class="iconfont">&#xe622;</i>Exit</li>
+		</ul>
+	</div>
+	<!--end menu-->
+	<!--start desk_icon-->
+	<div class="desk_icon"><p class='iconfont desk_icon_font' style='font-size:40px;'>&#xe607;</p>我的电脑</div>
+	<div class="desk_icon"><p class='iconfont desk_icon_font' style='font-size:40px;'>&#xe605;</p>网上邻居</div>
+	<div class="desk_icon"><p class='iconfont desk_icon_font' style='font-size:40px;'>&#xe656;</p>回收项目</div>
+    <!--end desk_icon-->
+	<!--start Music-->
+	<div id="all_lyrics_box">
+			<textarea id="lyric">
+		</textarea>
+			<a class="lyric_btn lyric_danmu_btn" href="#">弹幕</a>
+			<div id="lyric_box">
+				<ul id="lyric_list">
+				</ul>
+			</div>
+			<a class="lyric_btn lyric_close_btn" href="#">关闭</a>
+			<div id="music_box">
+		<div id="music_console_box">
+			<div id="music_icon">
+				<div id="music_icon_mask"></div>
+				<p id="music_icon_loading">0%</p>
+			</div>
+			<div id="music_detail">
+				<p id="music_name">咱们结婚吧</p>
+				<p id="music_player">齐晨</p>
+				<p id="music_time">
+					<span id="music_total_time">00:00</span>
+					<span>/</span>
+					<span id="music_current_time">00:00</span>
+				</p>
+			</div>
+			<div id="music_control_box">
+				<span id="prev"></span>
+				<span id="play"></span>
+				<span id="next"></span>
+				<span id="volume"></span>
+				<span id="volume_control">
+					<div id="volume_control_bar"></div>
+				</span>
+			</div>
+			<div id="music_list">
+				<span id="music_list_control"></span>
+				<span id="music_lyric"></span>
+			</div>
+			<div id="slider_switch"></div>
+			<audio id="audio"></audio>
+		</div>
+		<div id="music_list_box">
+		<p>我的歌单</p>
+		<table>
+			<thead>
+				<tr>
+					<td>歌手</td>
+					<td>歌曲</td>
+					<td>专辑</td>
+					<td>时长</td>
+				</tr>
+			</thead>
+			<tbody id="music_list">
+				<tr>
+					<td>齐晨</td>
+					<td>咱们结婚吧</td>
+					<td>？</td>
+					<td>04:10</td>
+				</tr>
+				<tr>
+					<td>陈奕迅</td>
+					<td>红玫瑰</td>
+					<td>认了吧</td>
+					<td>03:59</td>
+				</tr>
+				<tr>
+					<td>马頔</td>
+					<td>南山南</td>
+					<td>？</td>
+					<td>03:29</td>
+				</tr>
+				<tr>
+					<td>惊叹号</td>
+					<td>周杰伦</td>
+					<td>惊叹号</td>
+					<td>04:03</td>
+				</tr>
+				<tr>
+					<td>小苹果</td>
+					<td>筷子兄弟</td>
+					<td>猛龙过江</td>
+					<td>04:03</td>
+				</tr>
+				<tr>
+					<td>李白</td>
+					<td>李荣浩</td>
+					<td>模特</td>
+					<td>04:03</td>
+				</tr>
+				<tr>
+					<td>听见下雨声</td>
+					<td>魏如昀</td>
+					<td>听见下雨的声音</td>
+					<td>04:03</td>
+				</tr>
+				<tr>
+					<td>恋人心</td>
+					<td>魏新雨</td>
+					<td>恋人心</td>
+					<td>04:03</td>
+				</tr>
+				<tr>
+					<td>以后的以后</td>
+					<td>庄心妍</td>
+					<td>庄心妍情歌</td>
+					<td>04:03</td>
+				</tr>
+			</tbody>
+		</table>
+		<a id="music_list_button" href="javascript:void(0)"></a>
+		</div>
+	</div>
+	</div>
+	<!--start dm_box-->
+		<a id="dm_open" href="javascript:void(0)">弹出</a>
+	<div id="dm_box">
+		<a id="dm_close" href="javascript:void(0)">X</a>
+		<div id="input_box">
+			<div id="dm_input_box">
+				<input id="dm_input" type="text" placeholder="您可以发表20字以内的评论哦"/>
+				<input id="dm_button" type="button" value="发表评论" />
+			</div>
+		</div>
+		<div id="dm_body">
+			<p>各位身体健康，万事如意</p>
+			<p>加油学习！</p>
+		</div>
+	</div>
+	<!--end dm_box-->
+	<!--start bottombox-->
+	<div id="bottom_box">
+		<span><img src="img/1.jpg" /></span>
+		<span><img src="img/2.jpg" /></span>
+		<span><img src="img/3.jpg" /></span>
+		<span><img src="img/4.jpg" /></span>
+		<span><img src="img/1.jpg" /></span>
+		<span><img src="img/2.jpg" /></span>
+		<span><img src="img/3.jpg" /></span>
+		<span><img src="img/4.jpg" /></span>
+	</div>
+	<!--end bottombox-->
+  <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+ </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body >
+    <div onclick="change()"  class="demo" style="width:200px;height:100px;background-color:green;color:white;
+font-size:15px;text-align:center;position:relative;padding-top:10px;font-weight:bold;">点击这里</div>
+<div class="demo1" style="width:92px;height:15px;color:white;
+font-size:15px;text-align:center;position:absolute;left:61px;top:39px;visibility:hidden;font-weight:bold;">再次点击这里</div>
+<div class="demo2" style="width:62px;height:14px;color:white;
+font-size:15px;text-align:center;position:absolute;left:71px;top:62px;visibility:hidden;font-weight:bold;">再点一次</div>
+
+
+    <script>
+        
+            var demo = document.getElementsByClassName('demo')[0];
+            var demo1 = document.getElementsByClassName('demo1')[0];
+            var demo2 = document.getElementsByClassName('demo2')[0];
+         var clickNum = 0;
+          document.body.onclick = function (){
+            ++clickNum;
+             if(clickNum == 1){
+                demo1.style.visibility = "visible";
+             }
+             if(clickNum == 2){
+                demo2.style.visibility = "visible";
+             }
+              if(clickNum == 3){
+                  demo1.style.visibility = "hidden";
+                  demo2.style.visibility = "hidden";
+                  demo.innerHTML = "谢谢";
+              }
+              if(clickNum == 4){
+                  demo1.style.visibility = "hidden";
+                  demo2.style.visibility = "hidden";
+                  demo.innerHTML = "再见";
+              }
+              if(clickNum == 5){
+                  demo1.style.visibility = "hidden";
+                  demo2.style.visibility = "hidden";
+                  demo.style.display = "none";
+              }else{
+
+
+              }
+          } 
+
+
+
+
+
+
+
+        
+
+
+    </script>
+
+</body>
+
+</html>

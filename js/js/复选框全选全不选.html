@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 150px;
+            border: 1px solid black;
+            background: rgb(250, 250, 250);
+            margin: 30px auto;
+            font-size: 13px;
+            position: relative;
+        }
+
+        .first {
+            width: 100%;
+            height: 25px;
+            line-height: 25px;
+
+        }
+
+        .first #all {
+            width: 20px;
+            margin: 10px;
+            vertical-align: middle;
+
+        }
+
+        .first .differ {
+            width: 30px;
+            float: right;
+            /* padding-left: px; */
+            text-align: center;
+            cursor: pointer;
+            position: absolute;
+            top: 2px;
+            left: 100px;
+            color: rgb(138, 121, 232);
+        }
+
+        .first .differ:hover {
+            color: red;
+        }
+
+        .down input {
+            margin-left: 10px;
+            margin-top: 10px;
+            vertical-align: text-bottom;
+
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var down = document.getElementsByClassName('down')[0],
+                inputs = down.getElementsByTagName('input'),
+                all = document.getElementById('all'),
+                allfont = document.getElementById('allfont'),
+                differ = document.getElementsByClassName('differ')[0];
+
+
+            function isSelect() {
+                var n = 0;
+                for (var i = 0; i < inputs.length; i++) {
+                    //如果当前的inputs[i].checked = true 则num ++;
+                    inputs[i].checked && ++n;
+                }
+                //如果当前的num = inputs.length  则全选按钮的checked = true; 不等checked = false;
+
+                all.checked = n == inputs.length;
+
+                // if (num == inputs.length) {
+                //     all.checked = true;
+                // } else {
+                //     all.checked = false;
+                // }
+
+                allfont.innerHTML = all.checked ? "全选" : "全不选";
+
+            }
+
+            //点击全选按钮时
+            all.onclick = function () {
+                for (var j = 0; j < inputs.length; j++) {
+                    //如果当前this.checked = true  则每个inputs的checked = true; 如果当前全选按钮checked = false 则inputs的checked = false;
+
+                    inputs[j].checked = this.checked;
+                }
+                isSelect();
+            }
+
+            //反选
+
+            differ.onclick = function () {
+                for (var i = 0; i < inputs.length; i++) {
+                    //如果当前按钮的checked = true  则把它变为false;
+
+                    inputs[i].checked = !inputs[i].checked;
+                }
+                isSelect();
+            }
+
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].onclick = function () {
+                    isSelect();
+
+                }
+            }
+
+
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <div class="first">
+            <input id='all' type="checkbox">
+            <span id="allfont">全选</span>
+            <div class="differ">反选</div>
+        </div>
+        <hr>
+        <div class="down">
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+            <input type="checkbox">选项(一)
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>

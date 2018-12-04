@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #333;
+        }
+
+        #div1,
+        .box {
+            width: 100px;
+            height: 100px;
+            background: black;
+            border: 1px solid white;
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            cursor: move;
+        }
+
+        .box {
+            opacity: 0.3;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementById('div1');
+            var disL = disT = l = t = 0;
+            oDiv.onmousedown = function (ev) {
+                var event = ev || window.event;
+                var oBox = document.createElement('div');
+                oBox.style.left = oDiv.offsetLeft + 'px';
+                oBox.style.top = oDiv.offsetTop + 'px';
+                oBox.className = "box";
+                document.body.appendChild(oBox);
+                disL = event.clientX - this.offsetLeft;
+                disT = event.clientY - this.offsetTop;
+
+                document.onmousemove = function (ev) {
+                    var event = ev || window.event;
+                    l = event.clientX - disL;
+                    t = event.clientY - disT;
+                    var w = document.documentElement.clientWidth || document.body.clientWidth;
+                    var h = document.documentElement.clientHeight || document.body.clientHeight;
+                    // if (l <= 0) {
+                    //     l = 0;
+                    // } else if (l >= w - oBox.offsetWidth) {
+                    //     l = w - oBox.offsetWidth;
+                    // }
+
+                    // if (t <= 0) {
+                    //     t = 0;
+                    // } else if (t >= h - oBox.offsetHeight) {
+                    //     t = h - oBox.offsetHeight;
+                    // }
+
+                    l <= 0 && (l = 0);
+                    l >= w - oBox.offsetWidth && (l = w - oBox.offsetWidth);
+                    t <= 0 && (t = 0);
+                    t >= h - oBox.offsetHeight && (t = h - oBox.offsetHeight);
+                    oBox.style.left = l + 'px';
+                    oBox.style.top = t + 'px';
+                }
+
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                    oDiv.style.left = l + 'px';
+                    oDiv.style.top = t + 'px';
+                    document.body.removeChild(oBox);
+                }
+                preDefault(event);
+            }
+
+            function preDefault(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
+                e.cancelBubble = true;
+                e.returnValue = false;
+                return false;
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div1"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+
+
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <style type="text/css">
+       div {
+            width: 400px;
+            height: 400px;
+            border: 1px solid gray;
+        }
+
+        #div1 {
+            float: left;
+            position: relative;
+        }
+
+        #div2 {
+            float: left;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+
+        }
+    </style>
+    <script type="text/javascript">
+        function allowDrop(ev) {
+            var oEvent = ev || event;
+            oEvent.preventDefault();
+        }
+
+        function drag(ev) {
+            var oEvent = ev || event;          
+            oEvent.dataTransfer.setData("Text", oEvent.target.id);
+        }
+
+        function drop(ev) {
+            var oEvent = ev || event;            
+            oEvent.preventDefault();
+            var data = oEvent.dataTransfer.getData("Text");
+            oEvent.target.appendChild(document.getElementById(data));
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="01.jpg" draggable="true" ondragstart="drag(event)" id="drag1" />
+    </div>
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+</body>
+
+</html>

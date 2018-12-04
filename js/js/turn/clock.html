@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .li_img {
+            width: 400px;
+            display: inline-block;
+            list-style: none;
+        }
+
+        .ul_img {
+            width: 1800px;
+            padding: 0;
+            margin: 0;
+            font-size: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            /* transition: all 0.02s linear; */
+        }
+
+        .main_div {
+            width: 400px;
+            height: 300px;
+            /* overflow:hidden; */
+            position: relative;
+            margin: 10% auto;
+            box-shadow: 0 0px 16px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            height: 300px;
+        }
+    </style>
+
+
+    <script>
+        window.onload = function () {
+            var ul_img = document.getElementsByClassName('ul_img')[0];
+            var li_img = document.getElementsByClassName('li_img');
+            var startValue = li_img[0].offsetWidth;
+
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, false)[name];
+                }
+            }
+
+
+            function startMove(obj, attr, target, fn) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    var cur = 0;
+                    if (attr == 'opacity') {
+                        cur = parseFloat(getStyle(obj, attr)) * 100;
+                    } else {
+                        cur = parseInt(getStyle(obj, attr));
+                    }
+                    var speed = (target - cur) / 20;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    if (cur == target) {
+                        clearInterval(obj.timer);
+                        if (fn) {
+                            fn();
+                        }
+                    } else {
+                        if (attr == 'opacity') {
+                            obj.style.opacity = (cur + speed) / 100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+                    }
+                }, 30)
+            }
+            setInterval(function () {
+                startMove(ul_img, 'left', -startValue, function () {
+                    if (ul_img.offsetLeft = -startValue) {
+                        ul_img.style.left = '0';
+                        // ul_img.appendChild(li_img[0].cloneNode(true));
+                        // ul_img.removeChild(li_img[0]);
+                    }
+                })
+            }, 1000)
+
+
+
+
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div class="main_div">
+
+
+        <ul class="ul_img">
+            <li class="li_img">
+                <img src="img/qian01.jpg" alt="">
+            </li>
+            <li class="li_img">
+                <img src="img/qian02.jpg" alt="">
+            </li>
+            <li class="li_img">
+                <img src="img/qian03.jpg" alt="">
+            </li>
+            <li class="li_img">
+                <img src="img/qian04.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

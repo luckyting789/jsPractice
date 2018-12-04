@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    #div1{
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        opacity: 0.3;
+    }
+</style>
+
+
+<body>
+    <div id="div1"></div>
+    <script>
+
+        var div1 = document.getElementById('div1');
+        div1.onmouseover = function () {
+            startMove(1);
+        }
+        div1.onmouseout = function () {
+            startMove(0.3);
+        }
+        var a = 0.3;
+        var timer = null;
+        
+        function startMove(iTarget) {
+            clearInterval(timer);
+            timer = setInterval(function () {
+                var speed = 0;
+                if (a < iTarget) {
+                    speed = 0.01;
+                } else {
+                    speed = -0.01;
+                }
+                if (a == iTarget) {
+                    clearInterval(timer);
+                } else {
+                    a += speed;
+                    div1.style.opacity = a;
+                }
+            }, 30)
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = function () {
+            var oNext = document.getElementById('next');
+            var img1 = document.getElementById('img1');
+            var oPre = document.getElementById('pre');
+
+            var arr = ['img/qian01.jpg', 'img/qian02.jpg', 'img/qian03.jpg', 'img/qian04.jpg'];
+            var num = 0;
+
+            oNext.onclick = function () {
+                num++;
+                if (num >= 3) {
+                    num = 0;
+                }
+                img1.src = arr[num];
+            }
+
+            oPre.onclick = function(){
+                num --;
+                if(num <= 0){
+                    num = 3;
+                }
+                img1.src = arr[num];
+            }
+
+
+        }
+    </script>
+</head>
+
+
+
+<body>
+    <button id="pre">上一张</button>
+    <button id="next">下一张</button>
+
+    <img id="img1" src="img/qian01.jpg" alt="">
+
+</body>
+
+</html>

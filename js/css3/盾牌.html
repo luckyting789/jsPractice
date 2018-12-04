@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        overflow: hidden;
+    }
+
+    div {
+        width: 620px;
+        height: 620px;
+        margin: 30px auto;
+    }
+
+    img {
+        width: 200px;
+        height: 200px;
+        transition: all 1s;
+    }
+</style>
+
+<body>
+    <input type="button" value='打散' id="dasan">
+    <input type="button" value='合并' id="hebing">
+    <div>
+        <img src="qian/qian01.jpg">
+        <img src="qian/qian02.jpg">
+        <img src="qian/qian03.jpg">
+        <img src="qian/qian04.jpg">
+        <img src="qian/qian05.jpg">
+        <img src="qian/qian06.jpg">
+        <img src="qian/qian07.jpg">
+        <img src="qian/qian08.jpg">
+        <img src="qian/qian08.jpg">
+    </div>
+
+
+    <script>
+        var imgs = document.querySelectorAll('img');
+        var dasan = document.getElementById('dasan');
+        var hebing = document.getElementById('hebing');
+        dasan.onclick = function () {
+            for (var i = 0; i < imgs.length; i++) {
+                var transAngle = Math.random() * 360;
+                var randomX = Math.random() * 800 - 400;
+                var randomY = Math.random() * 300 - 200;
+                //给每一个图片都要设置这个样式
+                imgs[i].style.transform = "translate("+ randomX + "px," + randomY + "px) rotate("+ transAngle + "deg)";
+            }
+          
+        }
+        hebing.onclick = function(){
+            for(var i = 0; i < imgs.length; i++){
+            imgs[i].style.transform = "";
+        }
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

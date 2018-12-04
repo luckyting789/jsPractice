@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #demo {
+            width: 50px;
+            height: 100px;
+            /* border: 1px solid black; */
+            margin: 50px 50px;
+            position: relative;
+            display: none;
+            top:12px;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+            background-color: pink;
+            position: relative;
+            margin-left: 61px;
+            top:197px;
+
+
+        }
+
+        #volsqure {
+            width: 50px;
+            height: 80px;
+            border: 1px solid black;
+            position: absolute;
+            top:0px;
+            left: 50%;
+            margin-left: -25px;
+            
+
+
+        }
+
+        #squ1 {
+            width: 5px;
+            height: 70px;
+            background-color: black;
+            opacity: 0.4;
+            position: absolute;
+            top: 0px;
+            left: 20px;
+
+        }
+
+        #circle1 {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            left: 17px;
+
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var demo = document.getElementById('demo');
+            var Img = document.getElementById('Img');
+            var volsqure = document.getElementById('volsqure');
+            var squ1 = document.getElementById('squ1');
+            var circle1 = document.getElementById('circle1');
+
+            Img.onmouseover = function () {
+                demo.style.display = "block";
+
+            }
+            Img.onmouseout = function () {
+                demo.style.display = "none";
+
+            } 
+            demo.onmouseover = function () {
+                demo.style.display = "block";
+
+            }
+            demo.onmouseout = function () {
+                demo.style.display = "none";
+
+            } 
+
+
+
+        }
+    </script>
+</head>
+
+<body>
+        <img id="Img" src="音量.png" alt="">
+
+    <div id="demo">
+        <div id="volsqure">
+            <div id="squ1"></div>
+            <div id="circle1"></div>
+        </div>
+    </div>
+</body>
+
+</html>

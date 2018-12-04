@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+        }
+
+        body {
+            background: #333;
+        }
+
+        #box {
+            width: 600px;
+            margin: 20px auto;
+        }
+
+        .list {
+            position: relative;
+            width: 600px;
+            height: 144px;
+            margin-bottom: 10px;
+            overflow: hidden;
+
+        }
+
+        .list ul {
+            width: 1520px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 144px;
+        }
+
+        .list li {
+            display: inline-block;
+            width: 144px;
+            height: 144px;
+            float: left;
+            opacity: 0.8;
+            margin: 0 0 0 6px;
+            background: #000;
+            border-radius: 8px;
+
+        }
+
+        .list li img {
+            float: left;
+            width: 124px;
+            height: 100px;
+            border-radius: 5px;
+            margin: 10px 0 0 10px;
+            background: white;
+        }
+
+        .list li p {
+            float: left;
+            width: 100%;
+            color: white;
+            text-align: center;
+            line-height: 34px;
+        }
+
+        .scrollBar {
+            position: relative;
+            height: 19px;
+            background: #333;
+            overflow: hidden;
+            border: 1px solid black;
+        }
+
+        .scrollBar .barL,
+        .scrollBar .barR,
+        .scrollBar .curL,
+        .scrollBar .curR {
+            position: absolute;
+            top: 0;
+            width: 28px;
+            height: 19px;
+            cursor: pointer;
+            /* border: 1px solid red; */
+            box-sizing: border-box;
+        }
+
+        .scrollBar .barL,
+        .scrollBar .barR {
+            background: url(img/start.png) no-repeat;
+            background-size: 10px 10px;
+            height: 39px;
+            background-position: 5px 19%;
+        }
+
+        .scrollBar .barL,
+        .scrollBar .curL {
+            left: 0;
+        }
+
+        .scrollBar .barR,
+        .scrollBar .curR {
+            right: 0;
+        }
+
+        .scrollBar .curL,
+        .scrollBar .curR {
+            background: url(img/pause.png) no-repeat;
+            background-size: 15px 15px;
+            height: 39px;
+            background-position: 5px 10%;
+        }
+
+        .scrollBar .curL {
+            left: 0;
+        }
+
+        .scrollBar .curR {
+            right: 0;
+        }
+
+        .scrollBar .barM {
+            border: 1px solid #fff;
+            box-sizing: border-box;
+            position: relative;
+            height: 19px;
+            margin: 0 27px;
+            cursor: pointer;
+        }
+
+        .scrollBar .bar {
+            width: 50px;
+            background: burlywood;
+            height: 19px;
+            border-radius: 8px;
+            cursor: ew-resize;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            //问题  移入左右两边按钮时  怎么让图片同时变化
+            var bar = document.getElementsByClassName('bar')[0];
+            var barM = document.getElementsByClassName('barM')[0];
+            var list = document.getElementsByClassName('list')[0];
+            var oUl = list.getElementsByTagName('ul')[0];
+            var barL = document.getElementsByClassName('barL')[0];
+            var barR = document.getElementsByClassName('barR')[0];
+            var add = 5;
+            var timer, timer1;
+            var disL = l = barleft = 0;
+
+            //拖拽移动
+            bar.onmousedown = function (ev) {
+                var event = ev || window.evnet;
+                disL = event.clientX - bar.offsetLeft;
+                document.onmousemove = function (ev) {
+                    var event = ev || window.event;
+                    l = event.clientX - disL;
+                    if (l < 0) {
+                        l = 0;
+                    } else if (l > barM.offsetWidth - bar.offsetWidth) {
+                        l = barM.offsetWidth - bar.offsetWidth;
+                    }
+                    bar.style.left = l + 'px';
+                    barleft = bar.offsetLeft;
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                    change();
+                }
+                prevent(event);
+            }
+
+            //阻止默认
+            function prevent(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
+                e.cancelBubble = true;
+                e.returnValue = false;
+                return false;
+            }
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+            }
+
+            function startMove(obj, json, fn) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    for (var attr in json) {
+                        var cur = 0;
+                        var bStop = true;
+                        cur = parseInt(getStyle(obj, attr));
+                        var speed = (json[attr] - cur) / 6;
+                        if (cur != json[attr]) {
+                            bStop = false;
+                        }
+                        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                        obj.style[attr] = cur + speed + 'px';
+                    }
+                    if (bStop) {
+                        clearInterval(obj.timer);
+                        if (fn) fn();
+                    }
+                }, 30)
+            }
+
+            //进度条移动  ul的left变化
+            var jinduX = barM.offsetWidth - bar.offsetWidth;
+            function change() {
+                var rate = barleft / jinduX;
+                var disWidth = oUl.offsetWidth - list.offsetWidth;
+                var ulLeft = parseInt(rate * disWidth);
+                startMove(oUl, { "left": -ulLeft }, function () {
+                    //判断是否到达边界
+                    barR.className = bar.offsetLeft >= jinduX ? "curR" : "barR";
+                    barL.className = bar.offsetLeft <= 0 ? "curL" : "barL";
+                });
+            
+
+            }
+
+            //移入滚动条两端自动划动
+            function adValue() {
+                add = key ? 5 : -5;
+                barleft = bar.offsetLeft;
+                var addLeft = barleft + add;
+                bar.style.left = addLeft + 'px';
+                if (bar.offsetLeft <= 0) {
+                    bar.style.left = 0;
+                }
+                if (bar.offsetLeft >= jinduX) {
+                    bar.style.left = jinduX + 'px';
+                }
+            }
+
+            var key = true;
+            var i = 0;
+            barR.onmouseover = function () {
+                key = true;
+                timer = setInterval(function () {
+                    barleft = bar.offsetLeft;
+                    allCha();
+                    if (barleft >= jinduX) {
+                        clearInterval(timer);
+                    }
+                }, 30)
+            }
+            barR.onmouseout = function () {
+                clearInterval(timer);
+            }
+
+            barL.onmouseover = function () {
+                key = false;
+                timer1 = setInterval(function () {
+                    allCha();
+                    if (barleft <= 0) {
+                        clearInterval(timer1);
+                    }
+                }, 30)
+            }
+            barL.onmouseout = function () {
+                clearInterval(timer1);
+            }
+
+            function allCha() {
+                adValue();
+                change();
+            }
+
+            //点击调整
+            function getPosition(obj) {
+                var aLeft = obj.offsetLeft;
+                if (obj.offsetParent == null) {
+                    return aLeft;
+                } else {
+                    return aLeft += getPosition(obj.offsetParent);
+                }
+            }
+
+            barM.onclick = function (ev) {
+                var event = ev || window.event;
+                var disX = event.clientX - getPosition(barM) - bar.offsetWidth / 2;
+                barleft = disX - bar.offsetWidth / 2;
+                //判断点击时候如果点的位置不够进度条的长度
+                if (disX <= bar.offsetWidth) {
+                    disX = 0;
+                    barleft = 0;
+                } else if (barM.offsetWidth - disX <= bar.offsetWidth) {
+                    disX = jinduX;
+                    barleft = jinduX;
+                }
+                startMove(bar, { "left": disX });
+                change();
+                prevent(event);
+            }
+
+            //键盘左右键
+            document.onkeydown = function (ev) {
+                var code = (ev || window).keyCode;
+                if (code == 37) {
+                    key = false;
+                    allCha();
+                }
+                if (code == 39) {
+                    key = true;
+                    allCha();
+                }
+            }
+
+            //鼠标滚轮
+            function scrollFunc(e) {
+                if (e.wheelDelta) {
+                    if (e.wheelDelta >= 0) {
+                        key = true;
+                        allCha();
+                    } else {
+                        key = false;
+                        allCha();
+                    }
+                } else if (e.detail) {//兼容火狐
+                    if (e.detail >= 0) {
+                        key = true;
+                        allCha();
+                    } else {
+                        key = false;
+                        allCha();
+                    }
+                }
+            }
+
+            //添加滚轮事件
+            if (barM.addEventListener) {
+                barM.addEventListener("DOMMouseScroll", scrollFunc, false);//兼容火狐
+            }
+            barM.onmousewheel = scrollFunc;
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <div class="list">
+            <ul>
+                <li>
+                    <img src="img/01.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/02.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/03.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/04.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/05.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/06.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/07.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/08.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/09.png" alt="">
+                    <p>向下</p>
+                </li>
+                <li>
+                    <img src="img/10.png" alt="">
+                    <p>向下</p>
+                </li>
+            </ul>
+        </div>
+        <div class="scrollBar">
+            <div class="barL">
+            </div>
+            <div class="barM">
+                <div class="bar"> </div>
+            </div>
+            <div class="barR"></div>
+        </div>
+    </div>
+    <!-- <div id="div1" style="width:100px;height: 100px;background:red;"></div> -->
+</body>
+
+</html>

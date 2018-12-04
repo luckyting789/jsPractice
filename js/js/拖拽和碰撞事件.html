@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        overflow: hidden;
+    }
+
+    #div1 {
+        width: 200px;
+        height: 200px;
+        background-color: black;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #div2 {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        position: absolute;
+        top: 300px;
+        left: 300px;
+    }
+</style>
+
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+
+    <script>
+        var div1 = document.getElementById('div1');
+        var div2 = document.getElementById('div2');
+        function touch(obj1, obj2) {
+            var obj2H = obj2.offsetHeight;
+            var obj2T = obj2.offsetTop;
+            var obj2L = obj2.offsetLeft;
+            var obj2W = obj2.offsetWidth;
+            var obj1T = obj1.offsetTop;
+            var obj1H = obj1.offsetHeight;
+            var obj1L = obj1.offsetLeft;
+            var obj1W = obj1.offsetWidth;
+            if (obj1T + obj1H > obj2T && obj1L + obj1W > obj2L && obj1L < obj2L + obj2W && obj1T < obj2T + obj2H) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+       
+            div1.onmousedown = function (e) {
+                var event = e || window.event;
+                var l = event.clientX - div1.offsetLeft;
+                var t = event.clientY - div1.offsetTop;
+                document.onmousemove = function (e) {
+                    var event = e || window.event;
+                    div1.style.left = event.clientX - l + 'px';
+                    div1.style.top = event.clientY - t + 'px';
+                   if (touch(div1, div2)) {
+                        div2.style.backgroundColor = 'green';
+                    } else {
+                        div2.style.backgroundColor = 'red';
+                    }
+                
+            };
+            document.onmouseup = function () {
+                this.onmousemove = null;
+                this.onmouseup = null;
+            }
+            return false;
+
+        }
+    
+        
+
+
+    </script>
+</body>
+
+</html>

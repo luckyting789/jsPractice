@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = function () {
+            var div1 = document.getElementById('div1');
+
+            document.oncontextmenu = function (ev) {
+                var oEvent = ev || event;
+                oEvent.preventDefault();
+                div1.style.display = "block";
+                div1.style.top = oEvent.clientY + 'px';
+                div1.style.left = oEvent.clientX + "px";
+            }
+
+            window.onclick = function(){
+                div1.style.display = "none";
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div1" style="width:100px;height:100px;background: red;display: none;position:absolute;top:0;left:0;"></div>
+
+</body>
+
+</html>

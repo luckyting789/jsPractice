@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            left: 0px;
+            top: 20px;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+
+
+            //可随意拖拽
+            //up的时候如果距离小于一半，则left为0
+            //如果距离大于一半，则直接等于终点
+            ////当距离等于终点时，变成另外一张图片
+
+            var oBox = document.getElementById('box');
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+            }
+
+            function startMove(obj, json, fn) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    for (var attr in json) {
+                        var cur = 0;
+                        var bStop = true;
+                        if (attr == "opacity") {
+                            cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+                        } else {
+                            cur = parseInt(getStyle(obj, attr));
+                        }
+                        if (cur != json[attr]) {
+                            bStop = false;
+                        }
+
+                        var speed = (json[attr] - cur) / 6;
+                        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+
+                        if (attr == "opacity") {
+                            obj.style.opacity = (cur + speed) / 100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+                    }
+
+                    if (bStop) {
+                        clearInterval(obj.timer);
+                        if (fn) fn();
+                    }
+                }, 30)
+            }
+
+            var disL = l = W = 0;
+            oBox.onmousedown = function (ev) {
+                var event = ev || window.event;
+                disL = event.clientX - oBox.offsetLeft;
+                document.onmousemove = function (ev) {
+                    var event = ev || window.evnet;
+                    l = event.clientX - disL;
+                    W = document.documentElement.clientWidth || document.body.clientWidth;
+                    if (l < 0) {
+                        l = 0;
+
+                    } else if (l > W - oBox.offsetWidth) {
+                        l = W - oBox.offsetWidth;
+                    }
+                    oBox.style.left = l + "px";
+                }
+            }
+
+            document.onmouseup = function () {
+                document.onmousemove = null;
+                document.onmosueup = null;
+
+                if (l <= W / 2) {
+                    startMove(oBox, { "left": 0 });
+                } else {
+                    var x = W - oBox.offsetWidth;
+                    startMove(oBox, { "left": x },function(){ 
+                        oBox.style.background = "green";
+                    });
+                    
+                }
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="box"></div>
+</body>
+
+</html>

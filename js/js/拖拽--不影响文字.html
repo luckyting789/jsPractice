@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            position: absolute;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementById('div1');
+            var disX = 0;
+            var disY = 0;
+
+            oDiv.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                disX = oEvent.clientX - oDiv.offsetLeft;
+                disY = oEvent.clientY - oDiv.offsetTop;
+                // 用document的原因是防止鼠标移动过快移出盒子
+                document.onmousemove = function (ev) {
+                    var oEvent = ev || event;
+                    var l = oEvent.clientX - disX;
+                    var t = oEvent.clientY - disY;
+
+                    //防止盒子移出界面
+                    if (l < 0) {
+                        l = 0;
+                    } else if (l > document.documentElement.clientWidth - oDiv.offsetWidth) {
+                        l = document.documentElement.clientWidth - oDiv.offsetWidth;
+                    }
+
+                    if (t < 0) {
+                        t = 0;
+                    } else if (t > document.documentElement.clientHeight - oDiv.offsetHeight) {
+                        t = document.documentElement.clientHeight - oDiv.offsetHeight;
+                    }
+
+                    oDiv.style.left = l + 'px';
+                    oDiv.style.top = t + 'px';
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+// 在ie7以下拖拽捕获后释放捕获事件
+                    if(oDiv.releaseCapture){
+                        pDiv.releaseCapture;
+                    }
+
+                }
+                // oDiv.setCapture();  ie7及以下捕获
+                //    阻止火狐第二次点击时多出来的一个盒子
+                return false; //chrome、ff、IE9 不影响文字
+
+            }
+        }
+
+    </script>
+</head>
+
+<body> aaaaaaaaaaaaaa
+    <div id="div1">aaaaaaaaaaa</div>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+	<head>
+		<title>螺纹算法原理</title>
+	
+		<style type="text/css">
+			*{
+				padding:0;
+				margin: 0;
+			}
+			ul,li{
+				list-style: none;
+			}
+			#list{
+				margin: 100px auto;
+				background: red;
+				border-right: 1px solid #111;
+				border-bottom: 1px solid #111;
+				overflow: hidden;
+			}
+			#list li{
+				float: left;
+				text-align: center;
+				border-left: 1px solid #111;
+				border-top: 1px solid #111;
+			}
+			
+			
+		</style>
+	</head>
+	
+	<body>
+
+		<ul id="list">
+				
+		</ul>
+
+
+		<script type="text/javascript">
+//			var fl_slider = {
+//				init : function(){
+//					var size = 5;
+//					var wh = 50;
+//					var len = size*size;
+//					for(var i=0;i<len;i++){
+//						console.log(i);
+//					}
+//				}
+//			}
+//			fl_slider.init();
+			var listDom = document.getElementById("list");
+			
+			var size = 10;
+			var wh = 50;
+			var len = size*size;
+			listDom.style.width = size*wh+size+"px";
+			for(var i=0;i<len;i++){
+				var liDom = document.createElement("li");
+				liDom.style.width = wh+"px";
+				liDom.style.height = wh+"px";
+				liDom.style.lineHeight = wh+"px";
+				liDom.style.fontSize = "20px";
+				liDom.style.color = "#fff";
+				listDom.appendChild(liDom);
+			}
+			
+			var row = 0;
+			var col = 0;
+			var min = 0;
+			var max = size-1;
+			liDoms = listDom.children;
+			// 这是实现的原理，不过在开发中，我们是用计时器取代了for循环
+//			for(var i=0;i<len;i++){
+//				liDoms[row*size+col].innerHTML = i;
+//				console.log(row*size+col);
+//				if(row==min && col<max){
+//					liDoms[row*size+col].style.background = "blue";
+//					col = col+1;
+//				}else if(col==max && row < max){
+//					liDoms[row*size+col].style.background = "pink";
+//					row = row+1;
+//				}else if(row==max && col>min){
+//					liDoms[row*size+col].style.background = "#111";
+//					col = col-1;
+//				}else if(col==min && row>min){
+//					liDoms[row*size+col].style.background = "yellowgreen";
+//					row = row - 1;
+//				};
+//				
+//				if((row-1) ==min && col==min){
+//					min = min+1;
+//					max = max-1;
+//				}
+//			}
+			var mark = 0;
+			var timer = setInterval(function(){
+				if(mark == len){
+					clearInterval(timer);
+				}
+				liDoms[row*size+col].innerHTML = mark;
+				mark ++;
+				if(row==min && col<max){
+					liDoms[row*size+col].style.background = "blue";
+					col = col+1;
+				}else if(col==max && row < max){
+					liDoms[row*size+col].style.background = "pink";
+					row = row+1;
+				}else if(row==max && col>min){
+					liDoms[row*size+col].style.background = "#111";
+					col = col-1;
+				}else if(col==min && row>min){
+					liDoms[row*size+col].style.background = "yellowgreen";
+					row = row - 1;
+				};
+				
+				if((row-1) ==min && col==min){
+					min = min+1;
+					max = max-1;
+				}
+				
+			},80);
+			
+			
+		</script>
+	</body>
+</html>

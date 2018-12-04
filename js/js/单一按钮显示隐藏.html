@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .box {
+            width: 200px;
+            border: 1px solid black;
+            margin: 20px auto;
+            background: #f1f1f1;
+
+        }
+
+        .show {
+            width: 95%;
+            height: 30px;
+            background: #ccc;
+            margin: 0 auto;
+            line-height: 30px;
+            padding-left: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .sings {
+            display: none;
+        }
+
+        .sings ul li {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .sings ul li a {
+            padding-left: 10px;
+            color: black;
+            font-size: 12px;
+            text-decoration: none;
+
+        }
+
+        .sings ul li:hover {
+            text-decoration: underline;
+            background: white;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var show = document.getElementsByClassName('show')[0];
+            var sings = document.getElementsByClassName('sings')[0];
+
+            show.onclick = function () {
+
+                // if (sings.style.display == "block") {
+                //     sings.style.display = "none";
+                // } else {
+                //     sings.style.display = "block";
+                // }
+
+                var style = sings.style;
+
+                style.display = style.display == "none" ? "block" : "none";
+
+
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <div class="show">播放列表</div>
+        <div class="sings">
+            <ul>
+                <li>
+                    <a href="#">逆光-孙燕姿</a>
+                </li>
+                <li>
+                    <a href="#">心愿便利贴-王欣雨</a>
+                </li>
+                <li>
+                    <a href="#">成都-赵雷</a>
+                </li>
+                <li>
+                    <a href="#">你不是真正的快乐-五月天</a>
+                </li>
+                <li>
+                    <a href="#">宠爱- tfboys</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

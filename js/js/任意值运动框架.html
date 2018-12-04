@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            border: 20px solid black;
+            background-color: yellowgreen;
+            opacity: 0.3;
+            float: left;
+            margin:10px;
+            border: 2px solid black;
+
+
+        }
+    </style>
+
+
+
+    <script>
+        window.onload = function () {
+            var odiv1 = document.getElementById('div1');
+            var odiv2 = document.getElementById('div2');
+
+            odiv1.onmouseover = function () {
+                startMove(this, 'width', 400);
+            }
+            odiv1.onmouseout = function () {
+                startMove(this, 'width', 100);
+            }
+            odiv2.onmouseover = function () {
+                startMove(this, 'opacity', 100);
+            }
+
+            odiv2.onmouseout = function () {
+                startMove(this, 'opacity', 30);
+            }
+
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+            }
+           
+
+            function startMove(obj, attr, iTarget) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                
+                    if (attr == 'opacity') {
+                        var cur = parseFloat(getStyle(obj, attr)) * 100;
+
+                    } else {
+                        var cur = parseInt(getStyle(obj, attr));
+
+                    }
+                    var speed = (iTarget - cur) / 6;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    if (cur == iTarget) {
+                        clearInterval(obj.timer);
+                    } else {
+                        if (attr == 'opacity') {
+                            obj.style[attr] = (cur  + speed)/100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+                    }
+                }, 30)
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+</body>
+
+</html>

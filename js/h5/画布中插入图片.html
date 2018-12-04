@@ -1,0 +1,47 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<script>
+    window.onload = function(){
+        var c = document.getElementById('myCanvas');
+        var cxt = c.getContext("2d");
+        var img = new Image();
+        img.src = "01.jpg";
+        cxt.drawImage(img,0,0);
+      
+        
+    }
+</script>
+
+</head>
+<body>
+    <canvas id="myCanvas" width="200" height="200" style="border:1px solid black;"></canvas>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+var img=new Image()
+img.src="01.jpg"
+cxt.drawImage(img,0,0);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        #bird {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 1px;
+            left: 200px;
+            border-radius: 50%;
+        }
+
+        .topO,
+        .bottomO {
+            width: 70px;
+            position: absolute;
+            left: 1500px;
+            background-color: green;
+        }
+
+        .topO {
+            top: 0px;
+        }
+
+        #score {
+            width: 40px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid black;
+            margin-left: 10px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var obird = document.getElementById('bird');
+            var score = document.getElementById('score');
+
+            function start() {
+                bird();
+                timer2 = setInterval(function () {
+                    colu();
+                }, 1000);
+                sp();
+            }
+            start();
+            //鸟的top值变速运动
+            var speed;
+            var timer1;
+            function bird() {
+                speed = 1;
+                timer1 = setInterval(function () {
+                    obird.style.top = obird.offsetTop + speed + "px";
+                    speed++;
+                    if (obird.offsetTop <= '0') {
+                        clearInterval(timer2);
+                        clearInterval(timer1);
+                        clearInterval(timer3);
+                        obird.style.top = window.innerHeight - obird.offsetHeight + "px";
+                        obird.style.transition = "all 0.5s";
+                        num = 0; 
+                        score.innerHTML = num;
+                    }
+
+                    if (obird.offsetTop >= window.innerHeight - obird.offsetHeight) {
+                        clearInterval(timer2);
+                        clearInterval(timer1);
+                        clearInterval(timer3);
+                        num = 0;
+                        score.innerHTML = num;
+                    }
+                }, 30)
+
+            }
+
+            onkeydown = function () {
+                speed = -10;
+            }
+
+            //产生柱子
+
+            function getRandom(min, max) {
+                return parseInt(Math.random() * (max - min + 1)) + min;
+            }
+
+            function colu() {
+                var topZZ = document.createElement("div");
+                var bottomZZ = document.createElement('div');
+                //上面
+                topZZ.className = "topO";
+                topZZ.style.height = getRandom(50, 300) + 'px';
+                document.body.appendChild(topZZ);
+                topZZ.leftData = '100';
+
+                //下面
+                bottomZZ.className = "bottomO";
+                bottomZZ.style.top = topZZ.offsetHeight + 200 + "px";
+                bottomZZ.style.height = innerHeight - bottomZZ.offsetTop + 'px';
+                document.body.appendChild(bottomZZ);
+                bottomZZ.leftData = '100';
+            }
+            var timer2;
+            var timer3;
+            var num = 0;
+            function sp() {
+                timer3 = setInterval(function () {
+                    var topZZ = document.querySelectorAll('.topO');
+                    var bottomZZ = document.querySelectorAll('.bottomO');
+                    var speedX = -8;
+                    for (var i = 0; i < topZZ.length; i++) {
+                        if (touch(obird, topZZ[i]) || touch(obird, bottomZZ[i])) {
+                            clearInterval(timer2);
+                            clearInterval(timer1);
+                            clearInterval(timer3);
+                            obird.style.top = window.innerHeight - obird.offsetHeight + "px";
+                            obird.style.transition = "all 0.5s";
+                            num = 0;
+                            score.innerHTML = num;
+                        }
+                        if (topZZ[i].offsetLeft == obird.offsetLeft && bottomZZ[i].offsetLeft == obird.offsetLeft) {
+                            num += 1;
+                            score.innerHTML = num;
+                        }
+
+                        if (topZZ[i].style.left == '-50px') {
+                            document.body.removeChild(topZZ[i]);
+                            document.body.removeChild(bottomZZ[i]);
+                        }
+
+                        topZZ[i].style.left = topZZ[i].offsetLeft + speedX + 'px';
+                        topZZ[i].offsetLeft = parseInt(topZZ[i].style.left);
+                    }
+
+                    for (var j = 0; j < bottomZZ.length; j++) {
+                        bottomZZ[j].style.left = bottomZZ[j].offsetLeft + speedX + 'px';
+                        bottomZZ[j].offsetLeft = parseInt(bottomZZ[j].style.left);
+                    }
+
+
+                }, 30)
+
+            }
+
+
+            //碰撞检测
+            function touch(obj1, obj2) {
+                var obj2H = obj2.offsetHeight;
+                var obj2T = obj2.offsetTop;
+                var obj2L = obj2.offsetLeft;
+                var obj2W = obj2.offsetWidth;
+                var obj1T = obj1.offsetTop;
+                var obj1H = obj1.offsetHeight;
+                var obj1L = obj1.offsetLeft;
+                var obj1W = obj1.offsetWidth;
+                if (obj1L + obj1W > obj2L && obj1T + obj1H > obj2T && obj1L < obj2L + obj2W && obj1T < obj2T + obj2H) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+
+
+
+
+
+
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div id="bird"></div>
+    <div id="score">0</div>
+</body>
+
+</html>

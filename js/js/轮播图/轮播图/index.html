@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="src/index.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main_div">
+
+
+        <ul class="ul_img">
+            <li class="li_img">
+                <img src="src/img/qian01.jpg" alt="">
+            </li>
+            <li class="li_img">
+                <img src="src/img/qian02.jpg" alt="">
+            </li>
+            <li class="li_img">
+                <img src="src/img/qian03.jpg" alt="">
+            </li>
+            <li class="li_img">
+                <img src="src/img/qian04.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+
+
+    <script>
+        var ul_img = document.getElementsByClassName('ul_img')[0];
+        var li_img = document.getElementsByClassName('li_img');
+        var startValue = li_img[0].offsetWidth;
+        console.log(startValue);
+        //js的animate方法
+        //参数：obj当前元素
+        //      arr属性名称
+        //      目标属性值
+        //      fn方法参数
+        function getstyle(obj, name) {
+            if (obj.currentStyle) {
+                return obj.currentStyle[name];
+            } else {
+                return getComputedStyle(obj, false)[name];
+            }
+        }
+        function animate(obj, attr, target, fn) {
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function () {
+                var cur = 0;
+                if (attr == "opacity") {
+                    //如果改变的是透明度
+                    cur = Math.round(parseFloat(getstyle(obj, attr)) * 100);
+                } else {
+                    //其他
+                    cur = parseInt(getstyle(obj, attr));
+                }
+                //速度
+                var speed = (target - cur) / 8;
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                //Math.ceil()向上取整 Math.floor()返回小于等于speed的最大整数:
+                if (cur == target) {
+                    clearInterval(obj.timer);
+                    if (fn) {
+                        fn();
+                    }
+                } else {
+                    if (attr == "opacity") {
+                        //改变透明度
+                        obj.style.filter = "alpha(opacity=" + (cur + speed) + ")";
+                        obj.style.opacity = (cur + speed) / 100;
+                    } else {
+                        //其他
+                        obj.style[attr] = cur + speed + "px";
+                    }
+                }
+            }, 30)
+        }
+        //获取样式
+        setInterval(function () {
+            animate(ul_img, "left", -startValue, function () {
+                if (ul_img.offsetLeft == -startValue) {
+                    ul_img.style.left = "0px";
+                    ul_img.appendChild(li_img[0].cloneNode(true));
+                    ul_img.removeChild(li_img[0]);
+                }
+            });
+        }, 1000)
+
+    </script>
+</body>
+
+</html>

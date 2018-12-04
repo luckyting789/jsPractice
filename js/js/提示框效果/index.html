@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .box {
+            width: 800px;
+            background: #ccc;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .box ul {
+            height: 300px;
+        }
+
+        .box ul li {
+            width: 150px;
+            height: 150px;
+            border: 1px solid black;
+            float: left;
+            margin: 30px 40px;
+            cursor:crosshair;
+        }
+
+        .box ul li img {
+            width: 180px;
+            height: 180px;
+            margin: -30px -20px;
+            border:1px solid black;
+            display: none;
+        }
+
+        .box ul li .cur {
+            display: block;
+        }
+    </style>
+
+    <script>
+
+        window.onload = function () {
+
+            var oLi = document.getElementsByTagName('li');
+            var imgs = document.getElementsByTagName('img');
+
+            for (var i = 0; i < oLi.length; i++) {
+                oLi[i].index = i;
+                oLi[i].onmouseover = function () {
+                    for (var j = 0; j < oLi.length; j++) {
+                        imgs[j].className = "";
+                    }
+                    imgs[this.index].className = "cur";
+                }
+
+                oLi[i].onmouseout = function(){
+                    imgs[this.index].className = "";
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <ul>
+            <li>BMW
+                <img src="img/BMW.png">
+            </li>
+            <li>Skoda
+                <img src="img/Skoda.png">
+            </li>
+            <li>Porsche
+                <img src="img/Porsche.png">
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

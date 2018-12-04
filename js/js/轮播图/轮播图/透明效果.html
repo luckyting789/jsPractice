@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #ccc;
+        }
+
+        .box {
+            width: 400px;
+            height: 300px;
+            margin: 100px 300px;
+            position: absolute;
+        }
+
+        Img {
+            width: 400px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #boxImg {
+            opacity: 0.7;
+        }
+
+        #boxImgc {
+            clip: rect(0, 200px, 200px, 0);
+        }
+
+        .bor {
+            width: 200px;
+            height: 200px;
+            border: 1px solid white;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .bor div {
+            width: 8px;
+            height: 8px;
+            background: white;
+            position: absolute;
+            margin-left: -4px;
+            margin-top: -4px;
+        }
+
+        .topLeft {
+            left: 0;
+            top: 0;
+            cursor: nw-resize;
+        }
+
+        .topCenter {
+            top: 0;
+            left: 50%;
+            cursor: n-resize;
+        }
+
+        .topRight {
+            top: 0;
+            left: 100%;
+            cursor: ne-resize;
+        }
+
+        .cenLeft {
+            top: 50%;
+            left: 0;
+            cursor: w-resize;
+        }
+
+        .cenRight {
+            top: 50%;
+            left: 100%;
+            cursor: e-resize;
+        }
+
+        .botLeft {
+            top: 100%;
+            left: 0;
+            cursor: sw-resize;
+        }
+
+        .botCenter {
+            top: 100%;
+            left: 50%;
+            cursor: s-resize;
+        }
+
+        .botRight {
+            top: 100%;
+            left: 100%;
+            cursor: se-resize;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var cenRight = document.getElementById('cenRight');
+            var bor = document.getElementById('bor');
+            var box = document.getElementsByClassName('box')[0];
+            var topCenter = document.getElementById('topCenter');
+            var boxImgc = document.getElementById('boxImgc');
+            var cenRight = document.getElementById('cenRight');
+            var cenLeft = document.getElementById('cenLeft');
+            var botCenter = document.getElementById('botCenter');
+            var ifkeyDown = false;//鼠标按下状态
+            var contact = "";
+
+            cenRight.onmousedown = function () {
+                ifkeyDown = true;
+                contact = "right";
+            }
+
+            topCenter.onmousedown = function () {
+                ifkeyDown = true;
+                contact = "up";
+            }
+
+            cenLeft.onmousedown = function () {
+                ifkeyDown = true;
+                contact = "left";
+            }
+
+            botCenter.onmousedown = function () {
+                ifkeyDown = true;
+                contact = 'bot';
+            }
+
+            window.onmouseup = function () {
+                ifkeyDown = false;
+            }
+
+            //鼠标移动
+            window.onmousemove = function (ev) {
+                var oEvent = ev || event;
+                if (ifkeyDown == true) {
+                    if (contact == 'right') {
+                        rightMove(oEvent);
+                    } else if (contact == 'up') {
+                        upMove(oEvent);
+                    } else if (contact == 'left') {
+                        leftMove(oEvent);
+                    } else if (contact == 'bot') {
+                        botMove(oEvent);
+                    }
+
+                }
+
+            }
+
+            // 右边移动
+            function rightMove(ev) {
+                var x = ev.clientX;
+                var addWidth = "";
+                var widthBefore = bor.offsetWidth;
+                addWidth = x - getPosition(bor).left - bor.offsetWidth;
+                bor.style.width = addWidth + bor.offsetWidth + 'px';
+            }
+
+            // 上边移动
+            function upMove(ev) {
+                var y = ev.clientY;
+                var borY = getPosition(bor).top;
+                var addHeight = borY - y;
+                var heightBefore = bor.offsetHeight;
+                bor.style.height = heightBefore + addHeight + 'px';
+                bor.style.top = bor.offsetTop - addHeight + 'px';
+            }
+
+            //左边移动
+            function leftMove(ev) {
+                var x = ev.clientX;
+                var borX = getPosition(bor).left;
+                var addWidth = borX - x;
+                var widthBefore = bor.offsetWidth;
+                bor.style.width = widthBefore + addWidth + 'px';
+                bor.style.left = bor.offsetLeft - addWidth + 'px';
+            }
+
+            //下边移动
+            function botMove(ev) {
+                var y = ev.clientY;
+                var heightBefore = bor.offsetHeight;
+                var borY = getPosition(bor).top;
+                var addHeight = y - heightBefore - borY;
+                bor.style.height = addHeight + heightBefore + 'px';
+            }
+
+
+            function getPosition(node) {
+                var left = node.offsetLeft;
+                var top = node.offsetTop;
+                var parent = node.offsetParent;
+                while (parent != null) {
+                    left += parent.offsetLeft;
+                    top += parent.offsetTop;
+                    parent = parent.offsetParent;
+                }
+                return { "left": left, "top": top };
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <img id="boxImg" src="src/img/qian02.jpg" alt="">
+        <img id="boxImgc" src="src/img/qian02.jpg" alt="">
+        <div class="bor" id="bor">
+            <div class="topLeft" id="topLeft"></div>
+            <div class="topCenter" id="topCenter"></div>
+            <div class="topRight" id="topRight"></div>
+            <div class="cenLeft" id="cenLeft"></div>
+            <div class="cenRight" id="cenRight"></div>
+            <div class="botLeft" id="botLeft"></div>
+            <div class="botCenter" id="botCenter"></div>
+            <div class="botRight" id="botRight"></div>
+        </div>
+    </div>
+</body>
+
+</html>

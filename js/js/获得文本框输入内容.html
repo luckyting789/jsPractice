@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            position: relative;
+        }
+
+        #serch {
+            position: absolute;
+            left: calc(50% - 250px);
+            top: 300px;
+            width: 500px;
+            height: 50px;
+            padding: 5px 8px;
+            box-sizing: border-box;
+            font-size: 20px;
+            background: #fff;
+            border: 1px solid #e2e2e2;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px 2px #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="serch" type="text" />
+</body>
+<script>
+    var arr = [
+        { name: '张三', age: 20, sex: 'male' },
+        { name: '李四', age: 54, sex: 'female' },
+        { name: '王五', age: 30, sex: 'male' },
+        { name: 'baby', age: 10, sex: 'female' },
+        { name: '张杰', age: 33, sex: 'male' },
+        { name: '谢娜', age: 32, sex: 'female' },
+        { name: '王源', age: 17, sex: 'male' },
+        { name: '千玺', age: 18, sex: 'male' },
+        { name: '王俊凯', age: 19, sex: 'male' }
+    ];
+    var i = document.getElementById("serch");
+    i.onkeyup = function () {
+        var v = this.value;
+        console.log(v);
+        console.log(filterPersonArr(arr, v));
+    }
+    function filterPersonArr(personArr, filterText) {
+        return personArr.filter(function (ele, index) {
+            return ele.name.indexOf(filterText) != -1;
+        });
+    }
+</script>
+
+</html>

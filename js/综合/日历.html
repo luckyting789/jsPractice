@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            width: 400px;
+            height: 353px;
+            border: 1px solid black;
+            margin: 100px auto;
+            position: relative;
+        }
+
+
+        .front,
+        .now,
+        .next {
+            height: 50px;
+            background: rgb(0, 191, 254);
+            text-align: center;
+            font-size: 18px;
+            line-height: 50px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .front {
+            width: 50px;
+            position: absolute;
+        }
+
+        .now {
+            width: 100%;
+            background: rgb(0, 191, 254);
+        }
+
+        .next {
+            position: absolute;
+            right: 10px;
+            top: 0px;
+        }
+
+        tr {
+            height: 40;
+        }
+    </style>
+
+    <script>
+
+        window.onload = function () {
+
+            var wrapper = document.getElementsByClassName('wrapper')[0];
+
+            function start() {
+                ta();
+                head();
+                row();
+                body();
+                font();
+                d();
+            }
+
+            //创建一个表
+            function ta() {
+                var table = document.createElement('table');
+                table.className = "tableA"
+                table.width = "400";
+                table.height = "269";
+                table.border = "1";
+                table.cellSpacing = "0";
+                wrapper.appendChild(table);
+            }
+
+            function head() {
+                var tableA = document.getElementsByClassName('tableA')[0];
+                var thead = document.createElement('thead');
+                var tbody = document.createElement('tbody');
+                tableA.appendChild(thead);
+                tableA.appendChild(tbody);
+
+            }
+
+
+            //创建thead行
+            function row() {
+                var thead = document.getElementsByTagName('thead')[0];
+                var tr = document.createElement('tr');
+                tr.width = '400';
+                tr.vAlign = "center";
+                tr.align = "center";
+                thead.appendChild(tr);
+                for (var i = 0; i < 7; i++) {
+                    var td = document.createElement('td');
+                    td.height = "40";
+                    if (i > 4) {
+                        td.style.color = "red";
+                    }
+                    tr.appendChild(td);
+                }
+            }
+
+            //创建tbody
+            function body() {
+                for (var j = 0; j < 6; j++) {
+                    var tbody = document.getElementsByTagName('tbody')[0];
+                    var tr = document.createElement('tr');
+                    tr.width = '400';
+                    tr.vAlign = "center";
+                    tr.align = "center";
+                    tbody.appendChild(tr);
+                    for (var i = 0; i < 7; i++) {
+                        var td = document.createElement('td');
+                        td.height = "40";
+                        tr.appendChild(td);
+                    }
+                }
+            }
+
+            //thead行插入文字
+
+            var arr = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            function font() {
+                var thead = document.getElementsByTagName('thead')[0];
+                var tds = thead.getElementsByTagName('td');
+                for (var i = 0; i < tds.length; i++) {
+                    tds[i].innerHTML = arr[i];
+                }
+            }
+
+
+
+            // 第一行插入当前时间
+            var now = document.getElementsByClassName('now')[0];
+            var front = document.getElementsByClassName('front')[0];
+            var next = document.getElementsByClassName('next')[0];
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var today = date.getDate();
+            console.log(today);
+            function d() {
+                now.innerHTML = + year + "年" + month + "月";
+                front.innerHTML = (month - 1) + '月';
+                next.innerHTML = (month + 1) + '月';
+
+            }
+
+
+            start();
+
+            //判断闰年还是平年
+            var days;
+            function adjust(years) {
+                if (years % 400 == 0) {
+                    days = 29;
+                } else if (years % 4 == 0 && years % 100 != 0) {
+                    days = 29;
+                } else {
+                    days = 28;
+                }
+                return days;
+            }
+            console.log();
+
+            //判断每个月天数
+            var day;
+            function numDays(months) {
+                switch (months) {
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                    case 8:
+                    case 10:
+                    case 12:
+                        day = 31;
+                        break;
+                    case 2:
+                        day = adjust(year);
+                        break;
+                    case 4:
+                    case 6:
+                    case 9:
+                    case 11:
+                        day = 30;
+                        break;
+                    default:
+                        break;
+                }
+                return day;
+            }
+
+            //判断每个月的第一天为星期几
+
+            var tbody = document.getElementsByTagName('tbody')[0];
+            var trs = tbody.getElementsByTagName('tr');
+            var tds = tbody.getElementsByTagName('td');
+
+            var changenum;
+            function weekDay() {
+                var date1 = new Date(year, month - 1);
+                var week = date1.getDay();
+                switch (week) {
+                    case 0:
+                        changenum = 6;
+                        break;
+                    case 1:
+                        changenum = 0;
+                        break;
+                    case 2:
+                        changenum = 1;
+                        break;
+                    case 3:
+                        changenum = 2;
+                        break;
+                    case 4:
+                        changenum = 3;
+                        break;
+                    case 5:
+                        changenum = 4;
+                        break;
+                    case 6:
+                        changenum = 5;
+                        break;
+                    default:
+                        break;
+                }
+                for (var h = 0; h < numDays(month); h++) {
+                    tds[h + changenum].innerHTML = h + 1;
+                    // tds[today + changenum -1].style.color = "red";
+                    // if(h + changenum > today + changenum -1 ){
+                    //     tds[h + changenum].style.color = "blue";
+                    // }
+
+                }
+            }
+
+            weekDay();
+
+            //点击按钮切换月份
+
+            next.onclick = function () {
+                month += 1;
+                d();
+                if (month == 12) {
+                    year++;
+                    month = 0;
+                    next.innerHTML = (month + 1) + '月';
+                }
+                if (month == 1) {
+                    front.innerHTML = (month + 11) + '月';
+                }
+                for (var i = 0; i < tds.length; i++) {
+                    tds[i].innerHTML = "";
+                }
+                weekDay();
+            }
+
+            front.onclick = function () {
+                month -= 1;
+                d();
+                if(month == 1){
+                    year --;
+                    month = 12;
+                    front.innerHTML = month + '月';
+                }
+
+               
+                for (var i = 0; i < tds.length; i++) {
+                    tds[i].innerHTML = "";
+                }
+                weekDay();
+            }
+
+
+
+
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="front"></div>
+        <div class="now"></div>
+        <div class="next"></div>
+
+
+    </div>
+</body>
+
+</html>

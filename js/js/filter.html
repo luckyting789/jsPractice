@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .wrapper {
+            width: 500px;
+            padding: 10px 20px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin: 100px auto;
+        }
+
+        .wrapper input {
+            width: 200px;
+            height: 30px;
+            padding-left: 15px;
+        }
+
+        .set {
+            height: 50px;
+            border-bottom: 2px solid #ccc;
+            line-height: 50px;
+            font-size: 17px;
+            text-indent: 1em;
+            /* box-sizing: border-box; */
+            cursor: pointer;
+        }
+
+        .set:hover {
+            background-color: #ccc;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var arr = [
+                { name: '张三', age: 20, sex: 'male' },
+                { name: '李四', age: 54, sex: 'female' },
+                { name: '王五', age: 30, sex: 'female' },
+                { name: 'baby', age: 10, sex: 'female' },
+                { name: '张杰', age: 33, sex: 'male' },
+                { name: '谢娜', age: 32, sex: 'female' },
+                { name: '王源', age: 17, sex: 'male' },
+                { name: '千玺', age: 18, sex: 'male' },
+                { name: '王俊凯', age: 19, sex: 'male' }
+            ];
+            var oUl = document.getElementById('oUl'),
+                ageBtn = document.getElementById('ageBtn'),
+                onlyMenBtn = document.getElementById('onlyMenBtn'),
+                onlyWomenBtn = document.getElementById('onlyWomenBtn'),
+                showAllBtn = document.getElementById('showAllBtn'),
+                inp = document.getElementById('inp'),
+                menData = onlyMenBtn.getAttribute('data-ng-class'),
+                onlyWomenData = onlyWomenBtn.getAttribute('data-ng-class'),
+                showAllData = showAllBtn.getAttribute('data-ng-class'),
+                inpData = inp.getAttribute('data-ng-class'),
+                menArr,
+                womenArr,
+                r,
+                arr1,
+                match,
+                v;
+            var arr5 = arr;
+            //创建li
+
+            function creli() {
+                var li = document.createElement('li');
+                li.className = "set";
+                oUl.appendChild(li);
+            }
+
+            function insert(ele) {
+                oUl.innerHTML = "";
+                for (var i = 0; i < ele.length; i++) {
+                    creli();
+                    var lis = document.getElementsByTagName('li');
+                    lis[i].innerHTML = 'name: ' + ' ' + ele[i].name + ' , age: ' + ele[i].age + ' , sex: ' + ele[i].sex;
+                }
+            }
+            insert(arr);
+
+            function judArr() {
+                if (inpData == 1) {
+                    arr5 = match;
+                }
+                if (v == "") {
+                    arr5 = arr;
+                }
+                return arr5;
+            }
+            function judSex(obj, sexValue) {
+                return obj.filter(function (ele, index) {
+                    return ele.sex == sexValue;
+                });
+            }
+
+            //选出男性
+            function man() {
+                judArr();
+                menArr = judSex(arr5, 'male')
+                return menArr;
+            }
+            // function x(num1, num2, num3) {
+            //     num1 = 0;
+            //     num2 = 0;
+            //     num3 = 0;
+            // }
+            onlyMenBtn.onclick = function () {
+                man();
+                insert(menArr);
+                menData = 1;
+                onlyWomenData = 0;
+                showAllData = 0;
+                inpData = 0;
+                // x(onlyWomenData,showAllData,inpData);
+            }
+            //仅仅女生
+            function woman() {
+                judArr();
+                womenArr = judSex(arr5, 'female');
+                return womenArr;
+            }
+            onlyWomenBtn.onclick = function () {
+                woman();
+                insert(womenArr);
+                menData = 0;
+                onlyWomenData = 1;
+                showAllData = 0;
+                inpData = 0;
+                // x(menData,showAllData,inpData);
+            }
+
+            //显示所有
+            showAllBtn.onclick = function () {
+                judArr();
+                insert(arr5);
+                menData = 0;
+                onlyWomenData = 0;
+                showAllData = 1;
+                inpData = 0;
+            }
+            //点击minus age 是年龄-1
+
+            function reduce() {
+                if (menData == 1) {
+                    arr1 = man();
+                } else if (onlyWomenData == 1) {
+                    arr1 = woman();
+                } else if (inpData == 1) {
+                    arr1 = match;
+                } else {
+                    if (v == "") {
+                        arr5 = arr;
+                    }
+                    arr1 = arr5;
+                }
+                r = arr1.map(function (ele, index) {
+                    ele.age -= 1;
+                    return ele;
+                });
+                return r;
+            };
+            ageBtn.onclick = function () {
+                reduce();
+                insert(r);
+            }
+            //当按下一个键获取当前键的值
+            inp.onkeyup = function () {
+                v = this.value;
+                match = filterPersonArr(arr, v);
+                insert(match);
+                if (v == "") {
+                    insert(match);
+                }
+                menData = 0;
+                onlyWomenData = 0;
+                showAllData = 0;
+                inpData = 1;
+                // x(menData,onlyWomenData,showAllData);
+            }
+            function filterPersonArr(personArr, filterText) {
+                return personArr.filter(function (ele, index) {
+                    return ele.name.indexOf(filterText) != -1;
+                });
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <input type="text" id="inp" data-ng-class="0">
+        <button id="ageBtn">minus age</button>
+        <button id="onlyMenBtn" data-ng-class="0">only men</button>
+        <button id="onlyWomenBtn" data-ng-class="0">only women</button>
+        <button id="showAllBtn" data-ng-class="0">show all</button>
+        <ul id="oUl"> </ul>
+    </div>
+
+</body>
+
+</html>

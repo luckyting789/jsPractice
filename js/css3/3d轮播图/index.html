@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .box {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #000;
+        margin: 100px auto;
+        position: relative;
+
+
+    }
+
+    ul {
+        width: 25%;
+        height: 100%;
+        position: relative;
+        /* perspective: 1000px; */
+        transform-style: preserve-3d;
+
+        float: left;
+
+
+    }
+
+    ul:nth-child(2) li {
+        background-position-x: 33%;
+    }
+
+    ul:nth-child(3) li {
+        background-position-x: 66%;
+    }
+
+    ul:nth-child(4) li {
+        background-position-x: 99%;
+    }
+
+    ul li {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* background-size:100% 100%; */
+    }
+
+    .arrow-left,
+    .arrow-right {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 100px;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    .arrow-left {
+        left: -100px;
+    }
+
+    .arrow-right {
+        left: 100%;
+    }
+
+    /* before */
+
+    ul li:nth-child(1) {
+        transform: translateZ(200px);
+        background-image: url('qian/qian01.jpg');
+    }
+
+    /* top */
+
+    ul li:nth-child(2) {
+        transform: rotateX(90deg) translateZ(200px);
+        background-image: url('qian/qian02.jpg');
+    }
+
+    /* behind */
+
+    ul li:nth-child(3) {
+        transform: rotateY(180deg) translateZ(200px);
+        background-image: url('qian/qian03.jpg');
+    }
+
+    /* bottom */
+
+    ul li:nth-child(4) {
+        transform: rotateX(270deg) translateZ(200px);
+        background-image: url('qian/qian04.jpg');
+    }
+</style>
+
+<body>
+    <div class="box">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+        <a href="#" class="arrow-left">上一页</a>
+        <a href="#" class="arrow-right">下一页</a>
+    </div>
+
+    <script>
+
+        var arrowLeft = document.querySelector('.arrow-left');
+        var arrowRight = document.querySelector('.arrow-right');
+        var uls = document.querySelectorAll('ul');
+        var index = 0;
+        var key = true;
+
+
+        arrowLeft.addEventListener('click', function () {
+
+            if (key) {
+                // key = false;
+                index++;
+                for (var i = 0; i < uls.length; i++) {
+                    uls[i].style.transition = ' all 1s ' + (i * 0.2) + 's';
+                    uls[i].style.transform = "rotateX(" + (index * 90) + "deg)";
+
+                }
+            }
+        });
+
+        arrowRight.addEventListener('click', function () {
+            
+            if (key) {
+                // key = false;
+                index--;
+                for (var i = 0; i < uls.length; i++) {
+                    uls[i].style.transition = ' all 1s ' + (i * 0.2) + 's';
+                    uls[i].style.transform = "rotateX(" + (index * 90) + "deg)";
+
+                }
+            }
+        });
+
+
+        uls[uls.length - 1].addEventListener('transitionend', function () {
+            key = false;
+        })
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

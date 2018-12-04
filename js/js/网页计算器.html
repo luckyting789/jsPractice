@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #calc {
+            width: 300px;
+            margin: 10px auto;
+            position: relative;
+            border: 1px solid black;
+        }
+
+        #calc p {
+            width: 100%;
+            height: 15px;
+            font-size: 10px;
+            line-height: 15px;
+            text-align: right;
+        }
+
+        #calc .res {
+            border: 0;
+            width: 290px;
+            height: 84px;
+            text-align: right;
+            font: 700 50px/84px Arual;
+            background: #ccc;
+            padding: 0 5px;
+        }
+
+        #calc ul li {
+            width: 50px;
+            height: 40px;
+            background: pink;
+            display: inline-block;
+            margin: 10px;
+            line-height: 40px;
+            text-align: center;
+            font: 18px;
+            cursor: pointer;
+
+        }
+
+        .formula {
+            position: absolute;
+            top: 15px;
+            right: 0;
+            border: none;
+            background: #ccc;
+        }
+
+        #calc ul li:hover {
+            background: blanchedalmond;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var oLi = document.getElementsByTagName('li');
+            var res = document.getElementsByClassName("res")[0];
+
+            for (var i = 1; i < oLi.length - 2; i++) {
+                oLi[i].index = i;
+                oLi[i].onclick = function () {
+                    res.value += oLi[this.index].innerHTML;
+                }
+            }
+
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="calc">
+        <p>111111111111111111</p>
+        <input type="text" value="0" readonly class="res">
+        <ul>
+            <li>C</li>
+            <li>%</li>
+            <li>/</li>
+            <li>*</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>+</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>-</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>0</li>
+            <li>.</li>
+            <li>=</li>
+
+        </ul>
+        <input type="text" class="formula">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            opacity: 0.3;
+            float: left;
+            margin: 10px;
+        }
+    </style>
+
+    <script>
+
+        // 为什么用0到1之间的数字来作为alpha的值会一直闪
+        window.onload = function () {
+            var adiv = document.getElementsByTagName('div');
+
+            for (var i = 0; i < adiv.length; i++) {
+                adiv[i].alpha = 30;
+                adiv[i].onmouseover = function () {
+                    startMove(this, 100);
+                    // console.log(this.alpha);
+                };
+                adiv[i].onmouseout = function () {
+                    startMove(this, 30);
+                    console.log(this.alpha);
+                };
+            }
+        
+            // var alpha = 30;
+            function startMove(obj, iTarget) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    var speed = (iTarget - obj.alpha)/6;
+                    speed = speed > 0 ? Math.ceil(speed): Math.floor(speed);
+                    if (obj.alpha == iTarget) {
+                        clearInterval(obj.timer);
+                    } else {
+                        obj.alpha += speed;
+                        obj.style.opacity = obj.alpha / 100;
+                    }
+                }, 30)
+
+
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</body>
+
+</html>

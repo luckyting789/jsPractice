@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script>
+    function ajax(url,fnSucc,fnFailed){
+        //创建Ajax对象
+        if(window.XMLHttpRequest){
+            var oAjax = new XMLHttpRequest
+        }else{
+            var OAjax = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+
+        //连接服务器  open(方法，文件名，异步传输)
+        oAjax.open('GET',url,true);
+
+        //发送请求
+        oAjax.send();
+
+        //接收
+        oAjax.onreadystatechange = function(){
+            if(oAjax.readyState == 4){
+                if(oAjax.status == 200){
+                    fnSucc(oAjax.responseText);
+                }else{
+                    if(failed){
+                        failed();
+                    }
+                }
+            }
+        }
+  
+    }
+    
+    
+    
+    </script>
+</head>
+<body>
+  
+</body>
+</html>

@@ -1,0 +1,45 @@
+.sousuo-div{
+    width:600px;
+    height:35px;
+    /* border:1px solid black; */
+    position: relative;
+}
+.sousuo-div2{
+    width:480px;
+    height:35px;
+    border:2px solid #ff4000;
+    vertical-align: middle;
+    border-top-left-radius:20px;
+    border-bottom-left-radius:20px;
+    /* z-index:1000; */
+    overflow:hidden;
+}
+.sousuo-div2 .sousuo-input{
+    width:480px;
+    height:32px;
+    overflow:hidden;
+    text-indent:20px;
+    line-height:32px;
+    vertical-align: middle;
+    border:none;
+}
+.sousuo-button{
+    width:100px;
+    position: absolute;
+    vertical-align: middle;
+    top:0px;
+    right:31px;
+    height:39px;
+    border-top-right-radius:20px;
+    border-bottom-right-radius:20px;
+    overflow:hidden;
+    border:none;
+    font-size:20px;
+    font-weight:500;
+    color:white;
+    background-color:#ff4000;
+    margin-left:10px;
+    text-align: center;
+
+}
+    

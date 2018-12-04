@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+    body{
+        overflow: hidden;
+    }
+    ul{
+        width: 200px;
+        height: 200px;
+        /* border: 1px solid #000; */
+        margin:100px auto;
+        position: relative;
+        /* perspective:1000px; */
+        transform-style: preserve-3d;
+       
+    }
+    ul li{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left:0;
+        top: 0;
+        
+    }
+
+    ul:hover{
+        transition: all 3s;
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+     /* 正面 */
+    li:nth-child(1){
+        transform: translateZ(100px);
+        background-color: pink;
+    }
+    /* 上面 */
+    li:nth-child(2){
+        transform: rotateX(90deg) translateZ(100px);
+        background-color: skyblue; 
+    }
+    /* 后面 */
+    li:nth-child(3){
+        transform: rotateY(180deg) translateZ(100px);
+        background-color: blue;
+    }
+    /* 下面 */
+    li:nth-child(4){
+        transform: rotateX(270deg) translateZ(100px);
+        background-color: red;
+    }
+    /* 左面 */
+    li:nth-child(5){
+        transform: rotateY(-90deg) translateZ(100px);
+        background-color: yellow;
+    }
+    /* 右面 */
+    li:nth-child(6){
+        transform: rotateY(90deg) translateZ(100px);
+        background-color: green;
+    }
+
+</style>
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>

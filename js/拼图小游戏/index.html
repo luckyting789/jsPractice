@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #wrapper {
+            width: 600px;
+            height: 450px;
+            position: absolute;
+            left: 200px;
+            top: 100px;
+            background-size: 100% 100%;
+        }
+
+        ul {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+
+        }
+
+        .downImg {
+            filter: grayscale(100%);
+        }
+
+        .cur {
+            width: 200px;
+            height: 150px;
+            background-image: url(img/06.jpg);
+            position: absolute;
+            display: inline-block;
+            cursor: move;
+            z-index: 1;
+        }
+    </style>
+</head>
+<script>
+    window.onload = function () {
+        var arr = [
+            { "Left": 0, "Top": 0, "x": 0, "y": 0 },
+            { "Left": 200, "Top": 0, "x": 400, "y": 0 },
+            { "Left": 400, "Top": 0, "x": 800, "y": 0 },
+            { "Left": 0, "Top": 150, "x": 0, "y": 300 },
+            { "Left": 200, "Top": 150, "x": -200, "y": 300 },
+            { "Left": 400, "Top": 150, "x": -400, "y": 300 },
+            { "Left": 0, "Top": 300, "x": 0, "y": 600 },
+            { "Left": 200, "Top": 300, "x": -200, "y": 600 },
+            { "Left": 400, "Top": 300, "x": -400, "y": 600 }
+        ];
+
+        function getPosition(ele) {
+            var left = ele.offsetLeft;
+            var top = ele.offsetTop;
+            var parent = ele.offsetParent;
+            if (parent != null) {
+                left += parent.offsetLeft;
+                top += parent.offsetTop;
+                parent = parent.offsetParent;
+            }
+            return { "left": left, "top": top };
+        }
+
+
+
+        var key = false;
+
+        var btn = document.getElementById('btn');
+        var wrapper = document.getElementById('wrapper');
+        var oImg = wrapper.getElementsByTagName('img')[0];
+        var oUl = wrapper.getElementsByTagName('ul')[0];
+
+
+        var arr2 = [];
+        for (var l = 0; l < 9; l++) { arr2.push(l); }
+
+
+
+
+        //分散打乱图片
+        btn.onclick = function () {
+            split();
+            drag();
+
+        }
+
+        function preDefault(e) {
+            if (e.stopPropagation) e.stopPropagation();
+            if (e.preventDefault) e.preventDefault();
+            e.cancelBubble = true;
+            e.returnValue = false;
+            return false;
+        }
+
+
+
+        function split() {
+            arr2.sort(function (a, b) {
+                return Math.random() - 0.5;
+            });
+            var oLis = document.getElementsByTagName('li');
+            var len = oLis.length;
+            if (len != 0) {
+                for (var x = 0; x < len; x++) {     //移除一个li后 li的个数减少,所以不能写x < oLis.length;
+                    oUl.removeChild(oLis[0]);        //当移除前面一个li时，后面的那个li自动变为第0个
+                }
+            }
+            oImg.className = "downImg";
+            for (var i = 0; i < arr.length; i++) {
+                var oLi = document.createElement('li');
+                oLi.className = "cur";
+                oUl.appendChild(oLi);
+                var oLis = document.getElementsByTagName('li');
+                oLis[i].style.left = arr[arr2[i]].Left + 'px';
+                oLis[i].style.top = arr[arr2[i]].Top + 'px';
+                oLis[i].style.backgroundPosition = arr[i].x + 'px' + ' ' + arr[i].y + 'px';
+            }
+        }
+        //拖拽
+        var disL = disT = l = t = 0;
+        function drag() {
+            split();
+            var oLis = document.getElementsByTagName('li');
+
+            for (var i = 0; i < oLis.length; i++) {
+                oLis[i].index = i;
+
+                oLis[i].onmousedown = function (ev) {
+                    var event = ev || window.event;
+                    disL = event.clientX - getPosition(oLis[this.index]).left;
+                    disT = event.clientY - getPosition(oLis[this.index]).top;
+                    var iLeft = oLis[this.index].offsetLeft;
+                    var iTop = oLis[this.index].offsetTop;
+                    var iLeft1 = oLis[1].offsetLeft;
+                    var iTop1 = oLis[1].offsetTop;
+                    var num1 = this.index;
+                    document.onmousemove = function (ev) {
+                        var event = ev || window.event;
+
+                        l = event.clientX - disL;
+                        t = event.clientY - disT;
+
+                        l <= 0 && (l = 0);
+                        l >= wrapper.offsetWidth - oLis[0].offsetWidth && (l = wrapper.offsetWidth - oLis[0].offsetWidth);
+                        t <= 0 && (t = 0);
+                        t >= wrapper.offsetHeight - oLis[0].offsetHeight && (t = wrapper.offsetHeight - oLis[0].offsetHeight);
+
+                        oLis[num1].style.left = l + 'px';
+                        oLis[num1].style.top = t + 'px';
+                        oLis[num1].style.zIndex = 5;
+                        if (!isButt(oLis[num1], oLis[1])) {
+                            oLis[1].style.opacity = 0.3;
+                            oLis[1].style.border = "2px dashed yellow";
+                        } else {
+                            oLis[1].style.opacity = 1;
+                            oLis[1].style.border = "none"
+                        }
+
+                    }
+                    document.onmouseup = function () {
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                        oLis[num1].style.zIndex = 1;
+                        if (!isButt(oLis[num1], oLis[1])) {
+                            startMove(oLis[num1], { "left": iLeft1, "top": iTop1 });
+                            startMove(oLis[1], { "left": iLeft, "top": iTop });
+                            oLis[1].style.opacity = 1;
+                            oLis[1].style.border = "none";
+
+                        }
+                    }
+                    preDefault(event);
+                }
+            }
+        }
+
+        //碰撞检测
+        function isButt(obj1, obj2) {
+            var l1 = obj1.offsetLeft;
+            var t1 = obj1.offsetTop;
+            var r1 = obj1.offsetLeft + obj1.offsetWidth;
+            var b1 = obj1.offsetTop + obj1.offsetHeight;
+
+            var l2 = obj2.offsetLeft;
+            var t2 = obj2.offsetTop;
+            var r2 = obj2.offsetLeft + obj2.offsetWidth;
+            var b2 = obj2.offsetTop + obj2.offsetHeight;
+
+            if (r1 < l2 || b1 < t2 || r2 < l1 || b2 < t1) {
+                return true;
+            }
+        }
+
+
+        function findNearest(obj) {
+            split();
+            var oLis = document.getElementsByTagName('li');
+            var filterLi = [];
+            var aDistance = [];
+            for (i = 0; i < oLis.length; i++) oLis[i] != obj && (isButt(obj, oLis[i]) && (aDistance.push(getDistance(obj, oLis[i])), filterLi.push(oLis[i])));
+
+            var minNum = Number.MAX_VALUE;
+            var minLi = null;
+
+            for (i = 0; i < aDistance.length; i++) aDistance[i] < minNum && (minNum = aDistance[i], minLi = filterLi[i]);
+
+            return minLi;
+        }
+
+        function getDistance(obj1, obj2) {
+            var a = (obj1.offsetLeft + obj1.offsetWidth / 2) - (obj2.offsetLeft + obj2.offsetWidth / 2);
+            var b = (obj1.offsetTop + obj1.offsetHeight / 2) - (obj2.offsetTop + obj2.offsetHeight / 2);
+            return Math.sqrt(a * a + b * b)
+        }
+
+        function getStyle(obj, name) {
+            return obj.currentStyle ? obj.currentStyle[name] : getComputedStyle(obj, false)[name];
+        }
+
+
+        function startMove(obj, json, fnEnd) {
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function () {
+                var bStop = true;		//假设：所有值都已经到了
+                for (var attr in json) {
+                    var cur = 0;
+                    if (attr == 'opacity') {
+                        cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+                    }
+                    else {
+                        cur = parseInt(getStyle(obj, attr));
+                    }
+                    var speed = (json[attr] - cur) / 10;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+
+                    if (cur != json[attr])
+                        bStop = false;
+                    if (attr == 'opacity') {
+                        obj.style.filter = 'alpha(opacity:' + (cur + speed) + ')';
+                        obj.style.opacity = (cur + speed) / 100;
+                    }
+                    else {
+                        obj.style[attr] = cur + speed + 'px';
+                    }
+                }
+                if (bStop) {
+                    clearInterval(obj.timer);
+                    if (fnEnd) fnEnd();
+                }
+            }, 30);
+        }
+
+    }
+</script>
+
+<body>
+    <div id="wrapper">
+        <img src="img/06.jpg" alt="">
+        <ul></ul>
+    </div>
+
+    <input id="btn" type="button" value="开始游戏">
+
+
+
+
+</body>
+
+</html>

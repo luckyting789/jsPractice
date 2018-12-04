@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        overflow: hidden;
+    }
+
+    #bird {
+        width: 30px;
+        height: 30px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: 0px;
+        left: 100px;
+    }
+
+    .topG {
+        position: absolute;
+        top: 0;
+        width: 50px;
+        background-color: black;
+        left: 90%;
+
+    }
+
+    .bottomG {
+        position: absolute;
+        width: 50px;
+        background-color: black;
+        left: 90%;
+
+    }
+</style>
+
+<body>
+    <div id="bird"></div>
+
+
+    <script>
+        var bird = document.getElementById('bird');
+        var speedY = 0;
+        var t = parseInt(bird.offsetTop);
+        var die = false;
+        //    鸟
+        var timer = setInterval(function () {
+            speedY++;
+            bird.style.top = (t + speedY) + 'px';
+            t = parseInt(bird.style.top);
+            console.log(t);
+            if (t < 0) {
+                die = true;
+                t = 0;
+                // bird.style.top = '0px';
+                clearInterval(timer);
+                clearInterval(timer1);
+                speedY = 0;
+
+            }
+            if (t > innerHeight - bird.offsetHeight) {
+                die = true;
+                clearInterval(timer);
+                clearInterval(timer1);
+                speedY = 0;
+            }
+        }, 50)
+        onkeydown = function (e) {
+            if (die) return false;
+            speedY -= 30;
+        }
+
+        function getRandom(min, max) {
+            return parseInt(Math.random() * (max - min + 1)) + min;
+        }
+        function zz() {
+            var colu = document.createElement('div');
+            var bottomZ = document.createElement('div');
+            colu.className = 'topG';
+            colu.style.height = getRandom(100, 300) + 'px';
+            document.body.appendChild(colu);
+            colu.leftData = '100';
+            bottomZ.className = 'bottomG';
+            bottomZ.style.height = (parseInt(innerHeight) - parseInt(colu.style.height)) - 200 + 'px';
+            bottomZ.style.top = parseInt(colu.style.height) + 200 + 'px';
+
+            document.body.appendChild(bottomZ);
+            bottomZ.leftData = '100';
+        }
+
+        setInterval(function () {
+            zz();
+        }, 1500)
+        // function touch(obj1, obj2) {
+        //     var obj2H = obj2.offsetHeight;
+        //     var obj2T = obj2.offsetTop;
+        //     var obj2L = obj2.offsetLeft;
+        //     var obj2W = obj2.offsetWidth;
+        //     var obj1T = obj1.offsetTop;
+        //     var obj1H = obj1.offsetHeight;
+        //     var obj1L = obj1.offsetLeft;
+        //     var obj1W = obj1.offsetWidth;
+        //     if (obj1T + obj1H > obj2T && obj1L + obj1W > obj2L && obj1L < obj2L + obj2W && obj1T < obj2T + obj2H) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+        var timer1 = setInterval(function () {
+            var allTopG = document.querySelectorAll('.topG');
+            var allBottomG = document.querySelectorAll('.bottomG');
+            for (var i = 0; i < allTopG.length; i++) {
+               
+                if (allTopG[i].leftData == '-10') {
+                    document.body.removeChild(allTopG[i]);
+                    document.body.removeChild(allBottomG[i]);
+                    continue;
+                }
+                allTopG[i].style.left = allTopG[i].leftData - 1 + '%';
+                allTopG[i].leftData = allTopG[i].leftData - 1;
+            }
+            for (var i = 0; i < allBottomG.length; i++) {
+                allBottomG[i].style.left = allBottomG[i].leftData - 1 + '%';
+                allBottomG[i].leftData = allBottomG[i].leftData - 1;
+            }
+
+        }, 30);
+
+
+
+
+
+    </script>
+</body>
+
+</html>

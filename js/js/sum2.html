@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = function () {
+            var inps = document.getElementsByTagName('input');
+
+            for (var i = 0; i < inps.length - 2; i++) {
+                inps[i].onkeyup = function () {
+                    var reg = /[^(\d)]/;
+                    this.value = this.value.replace(reg, "");
+                }
+            }
+
+
+            var btn = document.getElementById('btn');
+            btn.onclick = function(){
+                console.log(typeof(inps[0].value));
+                inps[2].value = parseInt(inps[0].value) + parseInt(inps[1].value);
+            }
+
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <input type="text">
+    <input type="text">
+    <input type="text" value="?">
+    <input id="btn" type="button" value="求和">
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 95%;
+            background: #f0f0f0;
+            padding: 15px;
+            margin: 10px auto;
+            font-size: 12px;
+            color: green;
+        }
+
+        input {
+            margin-left: 22px;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementsByTagName('div'),
+                oInput = document.getElementsByTagName('input');
+            oInput[0].onclick = function () {
+                if (this.value == "删除January(1)") {
+                    var arr = (oDiv[0].innerHTML).split(",");
+                    arr.shift(arr[0]);
+                    oDiv[0].innerHTML = arr;
+                    this.value = "增加January(1)";
+                } else {
+                    var arr1 = (oDiv[0].innerHTML).split(",");
+                    var x = "January(1)";
+                    arr1.unshift(x);
+                    oDiv[0].innerHTML = arr1;
+                    this.value = "删除January(1)";
+                }
+            }
+
+            oInput[1].onclick = function () {
+                if (this.value == "删除December(12)") {
+                    var arr3 = (oDiv[0].innerHTML).split(",");
+                    arr3.pop(arr3.length - 1);
+                    oDiv[0].innerHTML = arr3;
+                    this.value = "增加December(12)";
+                } else {
+                    var arr4 = (oDiv[0].innerHTML).split(",");
+                    var x = "December(12)";
+                    arr4.push(x);
+                    oDiv[0].innerHTML = arr4;
+                    this.value = "删除December(12)";
+                }
+            }
+
+            oInput[2].onclick = function () {
+                var arr = (oDiv[1].innerHTML.split(','));
+                for (var i = 0; i < 10; i++) {
+                    arr.push(arr[i]);
+                    oDiv[1].innerHTML = arr;
+                }
+            }
+            var str = oDiv[1].innerHTML;
+            oInput[3].onclick = function () {
+                oDiv[1].innerHTML = str;
+            }
+
+            var str2 = oDiv[2].innerHTML;
+            oInput[4].onclick = function () {
+                oDiv[2].innerHTML = str2;
+            }
+
+            oInput[5].onclick = function () {
+                var arr5 = (oDiv[2].innerHTML.split(","));
+                arr5.splice(0, 3);
+                oDiv[2].innerHTML = arr5;
+            }
+
+            oInput[6].onclick = function () {
+                var arr6 = (oDiv[2].innerHTML.split(","));
+                arr6.splice(1, 2);
+                oDiv[2].innerHTML = arr6;
+            }
+
+            oInput[7].onclick = function () {
+                var arr7 = (oDiv[2].innerHTML.split(","));
+                arr7.splice(1, 0, "orange", "purple");
+                oDiv[2].innerHTML = arr7;
+            }
+
+            oInput[8].onclick = function () {
+                var arr8 = (oDiv[2].innerHTML.split(","));
+                arr8.splice(1, 2, "#525525", "#555258");
+                oDiv[2].innerHTML = arr8;
+            }
+
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div>January(1),February(2),March(3),April(4),May(5),June(6),July(7),Aguest(8),September(9),October(10),November(11),December(12)</div>
+    <input type="button" value="删除January(1)">
+    <input type="button" value="删除December(12)">
+    <div>0,1,2,3,4,5,6,7,8,9</div>
+    <input type="button" value="复制">
+    <input type="button" value="还原">
+    <div>red,green,blue,white,yellow,black,brown</div>
+    <input type="button" value="还原">
+    <input type="button" value="删除前三项">
+    <input type="button" value="删除第二至第三项">
+    <input type="button" value="在第二项后插入(orange,purple)">
+    <input type="button" value="替换第二项和第三项">
+</body>
+
+</html>

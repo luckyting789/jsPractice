@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        input {
+            margin: 10px 0 10px 10px;
+            padding: 3px;
+        }
+
+        span {
+            display: block;
+            margin: 10px;
+        }
+
+        #box {
+            width: 20px;
+            height: 20px;
+            background: orange;
+            opacity: 0.5;
+            border-radius: 50%;
+            position: absolute;
+            top: 100px;
+            left: 50px;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var oBox = document.getElementById('box');
+            var disL = disT = 0;
+            var oBtn = document.getElementsByTagName('input');
+            var oSpan = document.getElementsByTagName('span')[0];
+            console.log(oBtn.length);
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+            }
+
+            function startMove(obj, json, fn) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    for (var attr in json) {
+                        var cur = 0;
+                        var bStop = true;
+                        if (attr == "opacity") {
+                            cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+
+                        } else {
+                            cur = parseInt(getStyle(obj, attr));
+                        }
+                        if (cur != json[attr]) {
+                            bStop = false;
+                        }
+                        var speed = (json[attr] - cur) / 6;
+                        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                        if (attr == "opacity") {
+                            obj.style.opacity = (cur + speed) / 100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+                    }
+                    if (bStop) {
+                        clearInterval(obj.timer);
+                        if (fn) fn();
+                    }
+                }, 30)
+            }
+
+
+            var arr = [];
+            var disX = disY = 0;
+            var timer;
+
+
+
+
+            oBtn[0].onclick = function (ev) {
+                (ev || window.event).cancelBubble = true;
+                clearEvent();
+                document.onclick = function (ev) {
+                    var event = ev || window.event;
+                    disL = event.clientX;
+                    disT = event.clientY;
+                    startMove(oBox, { "left": disL, "top": disT });
+                }
+                oSpan.innerHTML = "鼠标点击页面，球将移动至鼠标位置";
+                this.value += "(已激活)";
+
+            }
+
+            function trail() {
+                document.onmousedown = function (ev) {
+                    var event = ev || window.event;
+                    disX = event.clientX;
+                    disY = event.clientY;
+                    arr.push({ x: disX, y: disY });
+                    document.onmousemove = function (ev) {
+                        var event = ev || window.event;
+                        arr.push({ x: event.clientX, y: event.clientY });
+                        return false;
+                    }
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    if (arr.length == 0) return;
+                    timer = setInterval(function () {
+                        var arr1 = arr.shift();
+                        if (arr1) {
+                            oBox.style.left = arr1.x + 'px';
+                            oBox.style.top = arr1.y + 'px';
+                        } else {
+                            clearInterval(timer);
+                        }
+                    }, 30);
+                    return false;
+                }
+            }
+
+            oBtn[1].onclick = function (ev) {
+                (ev || window.event).cancelBubble = true;
+                clearEvent();
+                oSpan.innerHTML = "按住鼠标左键，在页面划动，球将按照鼠标轨迹移动";
+                this.value += "(已激活)";
+                arr.push({ x: oBox.offsetLeft, y: oBox.offsetTop });
+                trail();
+
+            }
+            function clearEvent() {
+                document.onclick = null;
+                document.onmousedown = null;
+                document.onmousemove = null;
+                document.onmouseup = null;
+                for (i = 0; i < oBtn.length; i++) {
+                    oBtn[i].value = oBtn[i].value.replace("(已激活)", "");
+                    //click时间发生的同时会触发onmousedown和onmouseup事件，此时因为父级有这两个事件，如果不阻止冒泡，则会返回父级的结果
+                    oBtn[i].onmousedown = oBtn[i].onmouseup = function (event) {
+                        (event || window.event).cancelBubble = true;
+                    };
+                }
+            }
+
+        }
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+    <input type="button" value="根据鼠标点击位置移动">
+    <input type="button" value="根据鼠标轨迹移动">
+    <span>请点击按钮激活功能</span>
+    <div id="box"></div>
+</body>
+
+</html>

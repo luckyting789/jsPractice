@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 400px;
+            border: 1px solid black;
+            margin: 20px auto;
+            background: steelblue;
+        }
+
+        #box span {
+            display: block;
+            width: 350px;
+            height: 25px;
+            background: rgb(102, 102, 102);
+            border: 1px solid white;
+            line-height: 25px;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 10px auto 0;
+            box-shadow: 0 0 5px white;
+            cursor: pointer;
+            padding-left: 5px;
+            color: white;
+        }
+
+        #box ul {
+            width: 350px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        #box ul li {
+            width: 350px;
+            border: 1px solid black;
+            height: 25px;
+            font-size: 13px;
+            line-height: 25px;
+            padding-left: 5px;
+            margin-left: -3px;
+            cursor: pointer;
+            color: white;
+        }
+
+        #box ul li:hover {
+            background: rgb(102, 102, 102);
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var oSpan = document.getElementsByTagName('span')[0],
+                oUl = document.getElementsByTagName('ul')[0],
+                oLi = document.getElementsByTagName('li');
+
+                oSpan.onclick = function(){
+                    oUl.style.display = "block";
+                }
+
+                for(var i = 0; i < oLi.length; i ++){
+                    oLi[i].index = i;
+                    oLi[i].onclick = function(){
+                        oSpan.innerHTML = oLi[this.index].innerHTML;
+                        oUl.style.display = "none";
+                    }
+                }
+
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <span>请选择游戏名称</span>
+        <ul>
+            <li>地下城与勇士</li>
+            <li>魔兽世界（国服）</li>
+            <li>魔兽世界（台服）</li>
+            <li>热血江湖</li>
+            <li>神鬼传奇</li>
+            <li>大话西游II</li>
+            <li>QQ幻想世界</li>
+        </ul>
+    </div>
+</body>
+
+</html>

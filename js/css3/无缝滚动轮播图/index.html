@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        list-style:none;
+    }
+    .box {
+        width: 400px;
+        height: 400px;
+        border: 1px solid black;
+        margin: 100px auto;
+        overflow: hidden;
+       
+    }
+   ul{
+       width:3000px;
+       position: relative;
+       animation: run 10s infinite linear;
+       transition: all 1s;
+   }
+    li {
+        float: left;
+    }
+
+    @keyframes run {
+        from{
+            transform: translateX(0px);
+        }
+        to{
+            transform: translateX(-1200px);
+        }
+    }
+</style>
+
+<body>
+    <div class="box">
+        <ul>
+            <li><img src="qian/qian01.jpg" alt=""></li>
+            <li><img src="qian/qian02.jpg" alt=""></li>
+            <li><img src="qian/qian03.jpg" alt=""></li>
+            <li><img src="qian/qian04.jpg" alt=""></li>
+            <li><img src="qian/qian01.jpg" alt=""></li>
+            <li><img src="qian/qian02.jpg" alt=""></li>
+            <li><img src="qian/qian03.jpg" alt=""></li>
+            <li><img src="qian/qian04.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            position: absolute;
+        }
+
+        .box {
+            background-color: pink;
+            /* border: 1px dashed black; */
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementById('div1');
+
+            oDiv.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                var oBox = document.createElement('div');
+                oBox.className = 'box';
+                oBox.style.width = oDiv.offsetWidth + 'px';
+                oBox.style.height = oDiv.offsetHeight + 'px';
+                oBox.style.position = 'absolute';
+                document.body.appendChild(oBox);
+
+                var l = oEvent.clientX - oDiv.offsetLeft;
+                var t = oEvent.clientY - oDiv.offsetTop;
+
+                oBox.style.left = oDiv.offsetLeft + 'px';
+                oBox.style.top = oDiv.offsetTop + 'px';
+
+
+                document.onmousemove = function (ev) {
+                    var oEvent = ev || event;
+                    oBox.style.left = oEvent.clientX - l + 'px';
+                    oBox.style.top = oEvent.clientY - t + 'px';
+
+
+
+                }
+
+                document.onmouseup = function () {
+                    oDiv.style.left = oBox.offsetLeft + 'px';
+                    oDiv.style.top = oBox.offsetTop + 'px';
+                    document.body.removeChild(oBox);
+                    this.onmousemove = null;
+                    this.onmouseup = null;
+                }
+            }
+
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div1"></div>
+</body>
+
+</html>

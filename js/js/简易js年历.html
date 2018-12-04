@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .box {
+            width: 248px;
+            background: #eaeaea;
+            margin: 10px auto;
+            zoom: 1;
+            overflow: hidden;
+            padding: 0 0 10px 10px;
+        }
+
+        .box ul {
+            margin: 5px 0px;
+        }
+
+        .box ul li {
+            width: 40px;
+            height: 40px;
+            background: #424242;
+            display: inline-block;
+            margin: 5px;
+            border: 1px solid #424242;
+            margin: 6px 8px;
+            color: white;
+            line-height: 40px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+
+        }
+
+        .box ul .curli {
+            color: red;
+            background: white;
+        }
+
+        .content {
+            width: 230px;
+            background: #f1f1f1;
+            height: 50px;
+            border: 1px solid white;
+            margin: 0 0 10px 8px;
+        }
+
+        .content h2 {
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+
+            var arr = [
+                '元旦：1月1日至3日放假三天。',
+                '春节：2月2日至8日放假7天。',
+                '妇女节：3月8日妇女节，与我无关。',
+                '清明节：4月3日至5日放假3天',
+                '劳动节：4月30日至5月2日放假3天。',
+                '端午节：6月4日至6日放假3天。',
+                '小暑：7月7日小暑。不放假。',
+                '七夕节：8月6日七夕节。不放假。',
+                '中秋节：9月10日至12日放假3天。',
+                '国庆节：10月1日至7日放假7天。',
+                '立冬：11月8日立冬。不放假。',
+                '艾滋病日:12月1日'
+            ];
+
+
+            var oLi = document.getElementsByTagName('li');
+            var mes = document.getElementsByClassName('mes')[0];
+            var h2 = document.getElementsByTagName('h2')[0];
+
+            for (var i = 0; i < oLi.length; i++) {
+                // oLi[i].index = i;
+                // oLi[i].onmouseover = function () {
+                //     for (var j = 0; j < oLi.length; j++) {
+                //         oLi[j].className = "";
+                //     }
+                //     oLi[this.index].className = "curli";
+                //     h2.innerHTML = (this.index + 1) + '月';
+                //     mes.innerHTML = arr[this.index];
+                // }
+
+
+
+                (function(k){
+                    oLi[k].onmouseover = function(){
+                        for(var j = 0; j < oLi.length; j ++){
+                            oLi[j].className = "";
+                        }
+                        oLi[k].className = "curli";
+                        h2.innerHTML = (k + 1) + '月';
+                        mes.innerHTML = arr[k];
+                    }
+                })(i)
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <ul>
+            <li class="curli">1月</li>
+            <li>2月</li>
+            <li>3月</li>
+            <li>4月</li>
+            <li>5月</li>
+            <li>6月</li>
+            <li>7月</li>
+            <li>8月</li>
+            <li>9月</li>
+            <li>10月</li>
+            <li>11月</li>
+            <li>12月</li>
+        </ul>
+        <div class="content">
+            <h2>1月</h2>
+            <div class="mes">元旦：1月1日至3日放假三天。</div>
+        </div>
+    </div>
+</body>
+
+</html>

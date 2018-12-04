@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .large {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            position: relative;
+            top: 100px;
+            left: 200px;
+        }
+
+        .middle {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        .small {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 求一个元素相对于文档的位置 -->
+    <div class="large">
+        <div class="middle">
+            <div class="small"></div>
+        </div>
+    </div>
+    <script>
+
+        var large = document.getElementsByClassName('large')[0];
+        var middle = document.getElementsByClassName('middle')[0];
+        var small = document.getElementsByClassName('small')[0];
+
+
+        function getElementsPosition(ele) {
+            var offset = ele.offsetLeft;
+            var offsets = ele.offsetTop;
+            if (ele.offsetParent != null) {
+                offset += getElementsPosition(ele.offsetParent);
+                offsets += getElementsPosition(ele.offsetParent);
+            }
+            return {
+                    top: offsets,
+                    left: offset
+                }
+        }
+            // 获取元素的纵坐标
+        // function getLeft(e) {
+        //     var offset = e.offsetLeft;
+        //     if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+        //     return offset;
+        // }
+        // 获取元素的横坐标
+        // function getTop(e) {
+        //     var offset = e.offsetTop;
+        //     if (e.offsetParent != null) 
+        // offset += getTop(e.offsetParent);
+        //     return offset;
+        // }
+
+
+    </script>
+</body>
+
+</html>

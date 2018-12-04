@@ -1,0 +1,170 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body{
+    background:#333;
+}
+
+#msgBox{
+    width:500px;
+    background:#fff;
+    border-radius:5px;
+    margin:10px auto;
+    padding-top:10px;
+}
+
+#msgBox form{
+    background:pink;
+    padding:0 20px 15px;
+}
+
+#msgBox form h2{
+    font-weight: 400;
+    font-size:18px;
+}
+
+
+#up{
+    margin-top:10px;
+}
+
+#userName{
+    float: left;
+    width:150px;
+    height:30px;
+    border-radius: 6px;
+    border:1px solid gray;
+    text-indent: 0.5em;
+    box-shadow: 0 5px rgb(242,242,242) inset;
+}
+#face img{
+    widows: 30px;
+    height:30px;
+    opacity: 0.5;
+    float: left;
+    margin-left:8px;
+    box-sizing: border-box;
+}
+
+#face .curImg{
+    opacity: 1;
+    border:1px solid red;
+}
+
+#conBox{
+    width:450px;
+    height:80px;
+    border-radius: 5px;
+    margin-top:10px;
+    font-size:17px;
+    padding-top:5px;
+    padding-left:3px;
+    box-shadow: 0 5px rgb(242,242,242) inset;
+}
+
+#three{
+    margin-left:260px;
+    color:gray;
+    font-size:13px;
+}
+
+#sendBtn{
+    width:80px;
+    height:30px;
+    background:rgb(134,195,29);
+    font-size: 16px;
+    font-weight: 600;
+    line-height:30px;
+    color:white;
+    cursor: pointer;
+
+}
+#list{
+    width:500px;
+    background:white;
+    float: left;
+
+}
+
+#list h3{
+    width:460px;
+    height:30px;
+    background:rgb(226,234,236);
+    margin:5px auto 0;
+}
+
+#list h3 span{
+    display: inline-block;
+    width:80px;
+    height:25px;
+    background:white;
+    font-size:16px;
+    margin-top:5px;
+    line-height:25px;
+    text-align: center;
+    margin-left:10px;
+    font-family: "宋体";
+}
+
+#list ul{
+    width:460px;
+    margin: 0 auto;
+}
+
+#list ul li{
+    width:100%;
+    background:white;
+    float: left;
+    clear: both;
+    border-bottom: 1px dashed gray;
+}
+
+#list ul li:hover{
+    background:skyblue;
+}
+
+.userPic img{
+    width:60px;
+    height:60px;
+    border:1px solid red;
+    margin:10px 10px;
+    float: left;
+}
+
+#msgBox #list .content {
+    float: left;
+    width: 350px;
+    font-size: 13px;
+    margin-left: 10px;
+    font-family: arial;
+    word-wrap: break-word;
+}
+
+a{
+    text-decoration: none;
+}
+.times{
+    font-size:13px;
+    margin-top:3px;
+}
+
+.times a{
+    margin-left:300px;
+    margin-top:-15px;
+    cursor: pointer;
+    display: none;
+}
+
+.times #cur{
+    display: block;
+}
+
+.content .username a:hover{
+    text-decoration: underline;
+}
+
+
+

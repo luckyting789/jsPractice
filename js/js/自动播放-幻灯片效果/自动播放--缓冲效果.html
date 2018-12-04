@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            top: 100px;
+            left: 50%;
+            margin-left: -150px;
+            border: 5px solid burlywood;
+            overflow: hidden;
+        }
+
+        #box #imgList {
+            height: 1200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        img {
+            width: 400px;
+            height: 300px;
+            display: block;
+        }
+
+        #circle ul {
+            width: 100px;
+            height: 30px;
+            position: absolute;
+            left: 70%;
+            top: 90%;
+        }
+
+        #circle ul li {
+            width: 20px;
+            height: 20px;
+            background: orange;
+            float: left;
+            margin-left: 3px;
+            border-radius: 50%;
+            line-height: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        #circle ul .cur {
+            background: red;
+            opacity: 1;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+
+            var oImgList = document.getElementById('imgList');
+            var oImgLi = oImgList.getElementsByTagName('li');
+            var img0 = oImgLi[0].getElementsByTagName('img')[0];
+            var num = value = 0;
+            var key = true;
+            var timer;
+            var oCircle = document.getElementById('circle');
+            var oCirLi = oCircle.getElementsByTagName('li');
+
+            function getStyle(obj, name) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[name];
+                } else {
+                    return getComputedStyle(obj, null)[name];
+                }
+            }
+
+            function startMove(obj, json, fn) {
+                clearInterval(obj.timer);
+                obj.timer = setInterval(function () {
+                    for (var attr in json) {
+                        var cur = 0;
+                        var bStop = true;
+                        if (attr == "opacity") {
+                            cur = Math.round((getStyle(obj, attr)) * 100);
+                        } else {
+                            cur = parseInt(getStyle(obj, attr));
+                        }
+
+                        var speed = (json[attr] - cur) / 4;
+                        speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+
+                        if (cur != json[attr]) {
+                            bStop = false;
+                        }
+
+                        if (attr == "opacity") {
+                            obj.style.opacity = (cur + speed) / 100;
+                        } else {
+                            obj.style[attr] = cur + speed + 'px';
+                        }
+                    }
+
+                    if (bStop) {
+                        clearInterval(obj.timer);
+                        if (fn) fn();
+                    }
+                }, 30)
+            }
+
+            function start() {
+                timer = setInterval(function () {
+                    next();
+                    cutMove();
+                }, 2000);
+
+            }
+            start();
+            var box = document.getElementById('box');
+            box.onmouseover = function () {
+                clearInterval(timer);
+            }
+
+            box.onmouseout = function () {
+                start();
+            }
+
+            //元素移入
+
+            function next() {
+                key ? num++ : num--;
+                // if (num > oImgLi.length - 1) {
+                //     key = false;
+                //     num = oImgLi.length - 2;
+                // }
+                // if (num < 0) {
+                //     key = true;
+                //     num = 1;
+                // }
+                num <= 0 && (num = 0, key = true);
+                num >= oImgLi.length - 1 && (num = oImgLi.length - 1, key = false);
+
+            }
+
+            for (var i = 0; i < oCirLi.length; i++) {
+                oCirLi[i].index = i;
+                oCirLi[i].onmouseover = function () {
+                    num = this.index;
+                    cutMove();
+                }
+            }
+
+            function cutMove() {
+                for (var j = 0; j < oCirLi.length; j++)  oCirLi[j].className = "";
+                value = img0.offsetHeight * num;
+                oCirLi[num].className = "cur";
+                startMove(oImgList, { "top": -value }, function () { });
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <ul id="imgList">
+            <li>
+                <img src="img/qian01.jpg" alt="">
+            </li>
+            <li>
+                <img src="img/qian02.jpg" alt="">
+            </li>
+            <li>
+                <img src="img/qian03.jpg" alt="">
+            </li>
+            <li>
+                <img src="img/qian04.jpg" alt="">
+            </li>
+        </ul>
+        <div id="circle">
+            <ul>
+                <li class="cur">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

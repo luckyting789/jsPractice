@@ -1,0 +1,31 @@
+ //获取元素方法  
+var get = {
+                byId: function (id) {
+                    return typeof id === "string" ? document.getElementById(id) : id
+                },
+                byClass: function (sClass, oParent) {
+                    var aClass = [];
+                    var reClass = new RegExp("(^| )" + sClass + "( |$)");
+                    var aElem = this.byTagName("*", oParent);
+                    for (var i = 0; i < aElem.length; i++) reClass.test(aElem[i].className) && aClass.push(aElem[i]);
+                    return aClass
+                },
+                byTagName: function (elem, obj) {
+                    return (obj || document).getElementsByTagName(elem)
+                }
+            };
+
+
+//兼容事件处理event   
+function addEvent(elem, type, fn, boolean) {
+            var x;
+                if (elem.addEventListener) {
+                    x = elem.addEventListener(type, fn, boolean);
+                } else if (elem.attachEvent) {
+                    x = elem.attachEvent("on" + type, fn, boolean);
+                } else {
+                    console.error("你的浏览器版本太低");
+                    return false;
+                }
+                return x;
+            }

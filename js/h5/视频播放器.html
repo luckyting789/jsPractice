@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #jindutiao,
+        #squ {
+            width: 300px;
+            height: 5px;
+            background-color: gray;
+            opacity: 0.3;
+            position: relative;
+            top: 15px;
+            left: 0;
+
+        }
+
+        #squ {
+            width: 0;
+            background-color: red;
+            top: 10px;
+        }
+
+
+
+        #circle,
+        #circle1 {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: -3px;
+            left: 0px;
+            vertical-align: center;
+        }
+
+        #vol {
+
+            position: relative;
+            top: 20px;
+            left: 350px;
+
+
+
+        }
+
+        img {
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+
+        }
+
+        #volsqure {
+            width: 50px;
+            height: 80px;
+            border: 1px solid black;
+            position: relative;
+            top: -87px;
+            left: 348px;
+            display: none;
+            z-index: 0;
+
+        }
+
+        #squ1 {
+            width: 5px;
+            height: 70px;
+            background-color: black;
+            opacity: 0.4;
+            position: absolute;
+            top: 7px;
+            left: 8px;
+            z-index: 2;
+        }
+
+        #circle1 {
+            position: absolute;
+            left: 5px;
+            top: 67px;
+            z-index: 3;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var player = document.getElementById('player');
+            var btn = document.getElementById('video-btn');
+            var curtime = document.getElementById('curtime');
+            var dur = document.getElementById('dur');
+            var com = document.getElementById('com');
+            var squ = document.getElementById('squ');
+            var jindutiao = document.getElementById('jindutiao');
+            var circle = document.getElementById('circle');
+            var dis;
+            var volsqure = document.getElementById('volsqure');
+            var circle1 = document.getElementById('circle1');
+            var vol = document.getElementById('vol');
+            var end = "0" + parseInt(player.duration / 60) + ":" + Math.floor(player.duration % 60)
+            var squ1 = document.getElementById('squ1');
+            var volImg = document.getElementById('volImg');
+            dur.innerHTML = end;
+            //点击按钮时开始播放
+            btn.onclick = function () {
+                if (player.paused) {
+                    player.play();
+                    player.volume = 0.4;
+                    btn.value = "暂停";
+                    jindu();
+                } else {
+                    player.pause();
+                    btn.value = "开始";
+
+                }
+            };
+            //获取播放时间
+            var cur;
+            var timer2;
+            timer2 = setInterval(function () {
+                cur = player.currentTime;
+                var start;
+                if (cur % 60 < 10) {
+                    start = "0" + parseInt(cur / 60) + ":" + "0" + Math.floor(cur % 60)
+                } else {
+                    start = "0" + parseInt(cur / 60) + ":" + Math.floor(cur % 60)
+                }
+                curtime.innerHTML = start;
+
+            }, 30)
+
+            var timer1;
+            //进度条上的小圆点可以拖动
+
+            circle.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                dis = oEvent.clientX - circle.offsetLeft;
+                var l;
+                document.onmousemove = function (ev) {
+                    var oEvent = ev || event;
+                    l = oEvent.clientX - dis;
+                    if (l < jindutiao.offsetLeft) {
+                        l = 0;
+                    } else if (l > jindutiao.offsetWidth - circle.offsetWidth) {
+                        l = jindutiao.offsetWidth - circle.offsetWidth;
+                    }
+                    circle.style.left = l + "px";
+                    squ.style.width = l + "px";
+                    adjust(oEvent);
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+                pauseEvent(oEvent);
+            }
+            //可防止出现drag操作，因此在区域内可以避免onmouseup丢失
+            function pauseEvent(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
+                e.cancelBubble = true;
+                e.returnValue = false;
+                return false;
+            }
+
+            var timer;
+            var differ = jindutiao.offsetWidth - circle.offsetWidth;;
+
+            function jindu() {
+                var x = player.duration;
+                timer = setInterval(function () {
+                    cur = player.currentTime;
+                    circle.style.left = "" + parseFloat(cur / x) * (differ) + "px";
+                    squ.style.width = "" + parseFloat(cur / x) * (differ) + "px";
+                }, 30)
+
+            }
+            //往前点
+            jindutiao.onclick = function (ev) {
+                var oEvent = ev || event;
+                clickdistance(oEvent);
+            }
+            //往回点
+            squ.onclick = function (ev) {
+                var oEvent = ev || event;
+                clickdistance(oEvent);
+            }
+
+            //    鼠标点击进度条时变化
+
+            function clickdistance(ev) {
+                var oEvent = ev || event;
+                var disL = oEvent.clientX - circle.offsetWidth;
+                circle.style.left = disL + "px";
+                squ.style.width = disL + "px";
+                adjust(oEvent);
+            }
+
+            //当前播放时间
+            function adjust(e) {
+                var y = player.duration;
+                player.currentTime = "" + parseInt(circle.offsetLeft * y / differ) + "";
+                player.play();
+                btn.value = "暂停";
+            }
+            // 音量
+            var timer5;
+            var timer6;
+            volImg.onmouseover = function () {
+                volsqure.style.display = 'block';
+            }
+            volImg.onmouseout = function () {
+
+                volsqure.style.display = 'none';
+            }
+            volsqure.onmouseover = function () {
+                volsqure.style.display = 'block';
+            }
+            volsqure.onmouseout = function () {
+
+                volsqure.style.display = 'none';
+            }
+
+            // 音量拖动
+            circle1.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                dist = oEvent.clientY - circle1.offsetTop;
+                var t;
+                document.onmousemove = function (ev) {
+                    var oEvent = ev || event;
+                    t = oEvent.clientY - dist;
+                    if (t < squ1.offsetTop) {
+                        t = squ1.offsetTop;
+                    } else if (t > squ1.offsetHeight + squ1.offsetTop - circle1.offsetHeight) {
+                        t = squ1.offsetHeight + squ1.offsetTop - circle1.offsetHeight;
+                    }
+                    circle1.style.top = t + "px";
+                    changeVolume(oEvent);
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+                pauseEvent(oEvent);
+
+
+            }
+            var yy;
+            squ1.onclick = function (ev) {
+                var oEvent = ev || event;
+                changeVolume(oEvent);
+            }
+            function changeVolume(ev) {
+                var oEvent = ev || event;
+                yy = oEvent.clientY - volsqure.offsetTop - squ1.offsetTop + circle1.offsetHeight / 2;
+                player.volume = 1 - (parseFloat(yy / (squ1.offsetHeight)));
+                circle1.style.top = yy + "px";
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+
+    <button onclick="getVolume()" type="button" id="btn1">音量是多少？</button>
+    <button onclick="setHalfVolume()" type="button" id="btn2">把音量设置为 0.2</button>
+    <button onclick="setFullVolume()" type="button" id="btn3">把音量设置为 1</button>
+
+    <div class="mediaplayer">
+        <div class="video">
+            <video src="viedo.mp4" id="player" width="400" height="400" poster="01.jpg">
+                video player not available</video>
+        </div>
+    </div>
+    <div class="controls">
+        <input type="button" value="开始" id="video-btn">
+        <span id="curtime">0</span>
+        <span id="com">/</span>
+
+        <span id="dur">0</span>
+    </div>
+    <div id="jindutiao">
+        <div id="circle"></div>
+    </div>
+    <div id="squ"></div>
+
+    <div id="vol">
+        <img id="volImg" src="音量.png" alt="">
+    </div>
+
+    <div id="volsqure">
+        <div id="squ1"></div>
+        <div id="circle1"></div>
+    </div>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 400px;
+            border: 1px solid black;
+            margin: 100px 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <input id="btn1" type="button" value="排序">
+    <div class="box">
+        <ul id='boxul'>
+            <li>12</li>
+            <li>43</li>
+            <li>5</li>
+            <li>86</li>
+            <li>20</li>
+        </ul>
+    </div>
+
+
+
+    <script>
+      
+            var box = document.getElementsByClassName('box');
+            var boxul = document.getElementById('boxul');
+            var olis = document.getElementsByTagName('li');
+            var btn1 = document.getElementById('btn1');
+
+            btn1.onclick = function () {
+                var arr = [];
+                for (var i = 0; i < olis.length; i++) {
+                    arr[i] = olis[i];
+                }
+                arr.sort(function (nu1, nu2) {
+                    var n1 = parseInt(nu1.innerHTML);
+                    var n2 = parseInt(nu2.innerHTML);
+                    return n1 - n2;
+                });
+                for (var i = 0; i < arr.length; i++) {
+                    boxul.appendChild(arr[i]);
+            
+              
+            }
+        
+            }
+
+    </script>
+</body>
+
+</html>

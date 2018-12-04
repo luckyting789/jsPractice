@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" onselectstart='return false'>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>标题写在这儿</title>
+  <style type="text/css">
+    *{padding:0;margin:0;} 
+	body{background:#000}
+	#box{    width:133px;
+	              height:200px;
+				  margin:300px auto;
+				  position:relative;
+				  transform-style:preserve-3d;
+				  transform:perspective(800px) rotateX(-10deg) rotateY(0deg)
+			}/*为了改变时透视效果一致，这种写法。*/
+
+	#box #platform{  
+		width:1200px;
+       height:1200px;
+	   background:-webkit-radial-gradient(center center,600px 600px,rgba(255,255,255,0.5),rgba(255,255,255,0));
+	   position:absolute;
+	   left:-500px;
+	   top:0;
+	   margin-top:-400px;
+	   border-radius:600px;
+	   transform:rotateX(90deg);
+   }
+
+	#box img{     width:100%;
+	                       height:100%;
+						   position:absolute;
+						   top:0;
+						   left:0;
+						  transform:rotateX(-20px);
+						  border-radius:6px;
+						  box-shadow:0 5px 10px #eee;
+						  -webkit-box-reflect:below 10px -webkit-linear-gradient(top,rgba(0,0,0,0) 50%,rgba(0,0,0,.5) 100%)
+					}
+  </style>
+ </head>
+   
+ <body>
+    <div id="box">
+	<div id="platform"></div>
+	    <img src="img/1.jpg" />
+		<img src="img/2.jpg" />
+		<img src="img/3.jpg" />
+		<img src="img/4.jpg" />
+		<img src="img/5.jpg" />
+		<img src="img/6.jpg" />
+		<img src="img/7.jpg" />
+		<img src="img/8.jpg" />
+		<img src="img/9.jpg" />
+		<img src="img/10.jpg" />
+		<img src="img/11.jpg" />
+	</div>
+   <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+   <script type="text/javascript">
+      $(function(){
+		   var deg = 360/($("#box img").size());
+	       $("#box img").each(function(i){
+		       $(this).css({"transform":'rotatey('+i*deg+'deg) translatez(350px)'});
+			   $(this).attr('ondragstart','return false');
+		   });
+
+		   $(document).mousedown(function(e){
+			   var xB = e.clientX;
+			   var yB = e.clientY;
+		   $(document).bind('mousemove',function(e){
+		      var xE = e.clientX;
+			  var yE = e.clientY;
+			  var x =xE-xB;
+			  var y = yB-yE;
+			  xTo = x*0.2;
+			  yTo = y*0.2;
+			  
+			/*$("body").prepend('<div style="width:5px;height:5px;background:#fff;position:absolute;left:'+yTo+'px'+';top:'+xTo+'px'+';"></div>');*/
+			 $("#box").css({'transform':'perspective(800px) rotateX('+yTo+'deg'+') rotateY('+xTo+'deg'+')'})
+			  
+		   });
+		  
+		   }).mouseup(function(){
+		       $(this).unbind('mousemove')
+		   })
+	  })
+   </script>
+ </body>
+</html>

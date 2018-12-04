@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    body,html{
+        height:100%;
+        margin:0;
+        padding:0;
+
+    }
+    body{
+        background-image:radial-gradient(200px at right top,red,yellow, skyblue);
+        background-repeat:no-repeat;
+        position:relative;
+        overflow:hidden;
+    }
+    img{
+        width:100px;
+        height:100px;
+        position:absolute;
+        top:100%;
+        left:0;
+        
+
+    }
+    body:hover img{
+        transform: translate(1350px,-780px) scale(0) rotate(45deg);
+        transition: all 5s;
+    }
+</style>
+<body>
+    <img src="xiaohuojian.jpg">
+</body>
+</html>

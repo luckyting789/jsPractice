@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*checkBox*/
+        .checkBox, .radioBox, .toggleBox {
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+            display: table;
+            height: auto;
+            width: auto;
+        }
+        .checkBox.disabled,
+        .radioBox.disabled,
+        .toggleBox.disabled{
+            cursor: not-allowed;
+        }
+        .checkBox.disabled label,
+        .radioBox.disabled label,
+        .toggleBox.disabled label{
+            color: #767676;
+        }
+        .checkBox.disabled svg:first-child,
+        .radioBox.disabled svg:first-child{
+            fill: #767676;
+        }
+        .checkBox.disabled svg:last-child,
+        .radioBox.disabled svg:last-child{
+            fill: rgb(96,200,213);
+        }
+        .toggleBox.disabled >div>div>div:last-child{
+            background: rgb(224, 224, 224);
+        }
+        .toggleBox.disabled.checked >div>div>div:last-child{
+            background: rgb(96,200,213);
+        }
+        .checkBox svg:first-child {
+            display: inline-block;
+            color: rgba(0, 0, 0, 0.87);
+            fill: #7b7b7b;
+            height: 24px;
+            width: 24px;
+            user-select: none;
+            transition: opacity 650ms cubic-bezier(0.23, 1, 0.32, 1) 150ms;
+            position: absolute;
+            opacity: 1;
+        }
+        .checkBox.checked svg:first-child{
+            fill: rgb(0, 188, 212);
+            opacity: 0.5;
+        }
+        .checkBox:hover svg:first-child{
+            fill: rgb(0, 188, 212);
+        }
+        .checkBox svg:last-child{
+            display: inline-block;
+            color: rgba(0, 0, 0, 0.87);
+            fill: rgb(0, 188, 212);
+            height: 24px;
+            width: 24px;
+            user-select: none;
+            transition: opacity 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 800ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        .checkBox.checked svg:last-child {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .radioBox svg:first-child {
+            display: inline-block;
+            color: rgba(0, 0, 0, 0.87);
+            fill: #7b7b7b;
+            height: 24px;
+            width: 24px;
+            user-select: none;
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            position: absolute;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .radioBox.checked svg:first-child {
+            opacity: 0;
+            color: rgb(0, 188, 212);
+            transform: scale(0);
+        }
+        .radioBox:hover svg:first-child{
+            fill: rgb(0, 188, 212);
+        }
+        .radioBox svg:last-child {
+            display: inline-block;
+            color: rgba(0, 0, 0, 0.87);
+            fill: rgb(0, 188, 212);
+            height: 24px;
+            width: 24px;
+            user-select: none;
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.5);
+            transform-origin: 50% 50% 0px;
+        }
+
+        .radioBox.checked svg:last-child {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .checkBox label, .radioBox label, .toggleBox label {
+            float: left;
+            position: relative;
+            display: block;
+            line-height: 24px;
+            color: rgba(0, 0, 0, 0.87);
+            font-family: Roboto, sans-serif;
+        }
+
+        .checkBox > div, .radioBox > div, .toggleBox > div {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .checkBox > div > div, .radioBox > div > div {
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            float: left;
+            position: relative;
+            display: block;
+            flex-shrink: 0;
+            width: 24px;
+            margin-right: 16px;
+            margin-left: 0px;
+            height: 24px;
+        }
+
+        .toggleBox > div > div {
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            float: left;
+            position: relative;
+            display: block;
+            flex-shrink: 0;
+            width: 36px;
+            margin-right: 8px;
+            margin-left: 0px;
+            padding: 4px 0px 6px 2px;
+        }
+
+        .toggleBox > div > div > div:first-child {
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            width: 100%;
+            height: 14px;
+            border-radius: 30px;
+            background-color: rgb(189, 189, 189);
+
+        }
+        .checked.toggleBox >div>div>div:first-child{
+            background-color: rgb(120, 215, 229);
+        }
+        .checked.toggleBox >div>div>div:last-child{
+            background-color: rgb(0, 188, 212);
+            left: 20px !important;
+            color: rgba(112,112,112,0.5);
+        }
+        .toggleBox > div > div > div:last-child {
+            color: rgba(0, 0, 0, 0.87);
+            background-color: rgb(245, 245, 245);
+            transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            box-sizing: border-box;
+            font-family: Roboto, sans-serif;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 0px;
+            width: 20px;
+            height: 20px;
+            line-height: 21px;
+            text-align: center;
+            font-size: 14px;
+            color: #a0beca;
+        }
+
+        .checkBox input, .radioBox input, .toggleBox input {
+            position: absolute;
+            cursor: inherit;
+            pointer-events: all;
+            opacity: 0;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 2;
+            left: 0px;
+            box-sizing: border-box;
+            padding: 0px !important;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="checkBox" data-lable="checkbox">
+    <!-- <input type="checkbox" name="" value=""> -->
+</div>
+
+<div class="radioBox" data-lable="Euro">
+    <!-- <input type="radio" id="111" name="a" value=""> -->
+</div>
+<div class="radioBox" data-lable="Euro1">
+    <!-- <input type="radio" id="222" name="a" value=""> -->
+</div>
+<div class="toggleBox" data-lable="toggle">
+    <!-- <input type="checkbox" name="" value="" checked> -->
+</div>
+</body>
+<script src="jquery-3.1.1.min.js"></script>
+<script>
+    function isCheck(a) {
+        let fl = ($(a).find("input").attr("checked") == "checked") ? true : false;
+        if (!fl) {
+            $(a).removeClass("checked");
+        } else {
+            $(a).addClass("checked");
+        }
+        switch(a)
+        {
+            case ".radioBox":
+                $(a).append('<div><div><div>' +
+                    '<svg viewBox="0 0 24 24">' +
+                    '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>' +
+                    '</svg> <svg viewBox="0 0 24 24">' +
+                    '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>' +
+                    '</svg></div></div><label></label></div>');
+                break;
+            case ".checkBox":
+                $(a).append('<div><div><div>' +
+                    '<svg viewBox="0 0 24 24">' +
+                    '<path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path>' +
+                    '</svg><svg viewBox="0 0 24 24">' +
+                    '<path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>' +
+                    '</svg></div></div><label></label></div>');
+                break;
+            case ".toggleBox":
+                $(a).append('<div><div><div></div><div></div></div><label></label></div>');
+                break;
+        }
+        let length = $(a).length;
+        for(let i=0;i<length;i++){
+            let lable = $(a).eq(i).data("lable");
+            $(a).find("label").html(lable);
+        }
+    }
+    $(document).on("click", ".toggleBox,.checkBox,.radioBox", function () {
+        let fl = $(this).find("input").is(":checked");
+        let fl2 = $(this).find("input").prop("disabled")||$(this).hasClass("disabled");
+        if(fl2){
+            $(this).find("input").prop("disabled",true);
+            $(this).addClass("disabled");
+        }
+        if (!fl) {
+            $(this).removeClass("checked");
+            $(this).find("input").prop("checked",false);
+        } else {
+            $(this).addClass("checked");
+            $(this).find("input").prop("checked",true);
+        }
+    });
+    $(document).on("click", ".radioBox", function () {
+        let fl = $(this).find("input").is(":checked");
+        let fl2 = $(this).find("input").prop("disabled")||$(this).hasClass("disabled");
+        if(fl2){
+            $(this).find("input").prop("disabled",true);
+            $(this).addClass("disabled");
+        }
+        let name = $(this).find("input").attr("name");
+        let length = $("input[type=radio]").length;
+        if(fl){
+            for(let i = 0;i<length;i++){
+                let t =  $("input[type=radio]").eq(i);
+                if(t.attr("name")==name){
+                    t.prop("checked",false);
+                    t.parent().removeClass("checked");
+                }
+            }
+            $(this).addClass("checked");
+            $(this).find("input").prop("checked",true);
+        }
+    });
+    isCheck(".checkBox");
+    isCheck(".radioBox");
+    isCheck(".toggleBox");
+</script>
+</html>

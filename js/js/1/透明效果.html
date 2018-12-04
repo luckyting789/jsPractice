@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #ccc;
+        }
+
+        .box {
+            width: 400px;
+            height: 300px;
+            margin: 100px 300px;
+            position: absolute;
+        }
+
+        Img {
+            width: 400px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #boxImg {
+            opacity: 0.7;
+        }
+
+        #boxImgc {
+            clip: rect(0, 200px, 200px, 0);
+        }
+
+        .bor {
+            width: 200px;
+            height: 200px;
+            border: 1px solid white;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .bor div {
+            width: 8px;
+            height: 8px;
+            background: white;
+            position: absolute;
+            margin-left: -4px;
+            margin-top: -4px;
+        }
+
+        .topLeft {
+            left: 0;
+            top: 0;
+            cursor: nw-resize;
+        }
+
+        .topCenter {
+            top: 0;
+            left: 50%;
+            cursor: n-resize;
+        }
+
+        .topRight {
+            top: 0;
+            left: 100%;
+            cursor: ne-resize;
+        }
+
+        .cenLeft {
+            top: 50%;
+            left: 0;
+            cursor: w-resize;
+        }
+
+        .cenRight {
+            top: 50%;
+            left: 100%;
+            cursor: e-resize;
+        }
+
+        .botLeft {
+            top: 100%;
+            left: 0;
+            cursor: sw-resize;
+        }
+
+        .botCenter {
+            top: 100%;
+            left: 50%;
+            cursor: s-resize;
+        }
+
+        .botRight {
+            top: 100%;
+            left: 100%;
+            cursor: se-resize;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            document.onselectstart = new Function('event.returnValue = false');//取消选中图片的默认事件
+
+            var cenRight = document.getElementById('cenRight');
+            var bor = document.getElementById('bor');
+            var box = document.getElementsByClassName('box')[0];
+            var topCenter = document.getElementById('topCenter');
+            var boxImgc = document.getElementById('boxImgc');
+            var cenRight = document.getElementById('cenRight');
+            var cenLeft = document.getElementById('cenLeft');
+            var botCenter = document.getElementById('botCenter');
+            var botRight = document.getElementById('botRight');
+            var topLeft = document.getElementById('topLeft');
+            var topRight = document.getElementById('topRight');
+            var botLeft = document.getElementById('botLeft');
+            var ifkeyDown = false;//鼠标按下状态
+            var contact = "";
+            var borY, heightBefore, borH;
+            var borX, widthBefore, borW, borL;
+
+            cenRight.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                ifkeyDown = true;
+                contact = "right";
+                pauseEvent(oEvent);
+                borW = bor.offsetWidth;
+                borL = bor.offsetLeft;
+            }
+
+            topCenter.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = "up";
+                borY = getPosition(bor).top;
+                heightBefore = bor.offsetHeight;
+                borH = bor.offsetTop;
+            }
+
+            cenLeft.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = "left";
+                borX = getPosition(bor).left;
+                widthBefore = bor.offsetWidth;
+                borW = bor.offsetLeft;
+            }
+
+            botCenter.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = 'bot';
+                borY = getPosition(bor).top;
+                heightBefore = bor.offsetHeight;
+                borH = bor.offsetTop;
+            }
+
+            botRight.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = "botright";
+                borY = getPosition(bor).top;
+                heightBefore = bor.offsetHeight;
+                borH = bor.offsetTop;
+            }
+
+            topLeft.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = "topleft";
+                borY = getPosition(bor).top;
+                heightBefore = bor.offsetHeight;
+                borH = bor.offsetTop;
+                borX = getPosition(bor).left;
+                widthBefore = bor.offsetWidth;
+                borW = bor.offsetLeft;
+
+            }
+
+            topRight.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = "topright";
+                borY = getPosition(bor).top;
+                heightBefore = bor.offsetHeight;
+                borH = bor.offsetTop;
+            }
+
+            botLeft.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                pauseEvent(oEvent);
+                ifkeyDown = true;
+                contact = "botleft";
+                borX = getPosition(bor).left;
+                widthBefore = bor.offsetWidth;
+                borY = getPosition(bor).top;
+                heightBefore = bor.offsetHeight;
+                borH = bor.offsetTop;
+                borW = bor.offsetLeft;
+
+            }
+
+            window.onmouseup = function () {
+                ifkeyDown = false;
+                document.onmousemove = null;
+                document.onmosueup = null;
+
+            }
+
+            function pauseEvent(ev) {
+                if (ev.stopPropagation) ev.stopPropagation();
+                if (ev.preventDefault) ev.preventDefault();
+                ev.cancleBubble = false;
+                ev.returnValue = true;
+                return false;
+            }
+
+            //鼠标移动
+            window.onmousemove = function (ev) {
+                var oEvent = ev || event;
+                if (ifkeyDown == true) {
+                    switch (contact) {
+                        case 'right':
+                            rightMove(oEvent);
+                            break;
+                        case 'up':
+                            upMove(oEvent);
+                            break;
+                        case 'left':
+                            leftMove(oEvent);
+                            break;
+                        case 'bot':
+                            botMove(oEvent);
+
+                            break;
+                        case "botright":
+                            rightMove(oEvent);
+                            botMove(oEvent);
+                            break;
+                        case "topleft":
+                            upMove(oEvent);
+                            leftMove(oEvent);
+                            break;
+                        case "topright":
+                            upMove(oEvent);
+                            rightMove(oEvent);
+                            break;
+                        case "botleft":
+                            botMove(oEvent);
+                            leftMove(oEvent);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                setChoice();
+            }
+
+            // 右边移动
+            function rightMove(ev) {
+                var x = ev.clientX;
+                var addWidth = x - getPosition(bor).left - borW - 2;
+                if (addWidth > box.offsetWidth - borW - borL) {
+                    addWidth = box.offsetWidth - borW - borL;
+                }
+                bor.style.width = borW + addWidth + 'px';
+            }
+
+            // 上边移动
+            function upMove(ev) {
+                var y = ev.clientY;
+                var addHeight = borY - y - 2;
+                if (addHeight > borH) {
+                    addHeight = borH;
+                }
+                bor.style.height = heightBefore + addHeight + 'px';
+                bor.style.top = borH - addHeight + 'px';
+            }
+
+            //左边移动
+            function leftMove(ev) {
+                var x = ev.clientX;
+                var addWidth = borX - x - 2;
+                if (addWidth > borW) {
+                    addWidth = borW;
+                }
+                bor.style.width = widthBefore + addWidth + 'px';
+                bor.style.left = borW - addWidth + 'px';
+
+            }
+
+            //下边移动
+            function botMove(ev) {
+                var y = ev.clientY;
+                var addHeight = y - heightBefore - borY - 2;
+                if (addHeight > box.offsetHeight - heightBefore - borH) {
+                    addHeight = box.offsetHeight - heightBefore - borH;
+                }
+                bor.style.height = addHeight + heightBefore + 'px';
+            }
+
+
+            function getPosition(node) {
+                var left = node.offsetLeft;
+                var top = node.offsetTop;
+                var parent = node.offsetParent;
+                while (parent != null) {
+                    left += parent.offsetLeft;
+                    top += parent.offsetTop;
+                    parent = parent.offsetParent;
+                }
+                return { "left": left, "top": top };
+            }
+
+            function setChoice() {
+                var top = bor.offsetTop;
+                var right = bor.offsetLeft + bor.offsetWidth;
+                var bottom = bor.offsetTop + bor.offsetHeight;
+                var left = bor.offsetLeft;
+                boxImgc.style.clip = "rect(" + top + "px," + right + "px," + bottom + "px," + left + "px)";
+            }
+
+            bor.onmousedown = function (ev) {
+                var oEvent = ev || event;
+                var disL = oEvent.clientX - bor.offsetLeft;
+                var disT = oEvent.clientY - bor.offsetTop;
+                document.onmousemove = function (ev) {
+                    var oEvent = ev || event;
+                    var l = oEvent.clientX - disL;
+                    var t = oEvent.clientY - disT;
+                    if (l < 0) {
+                        l = 0;
+                    } else if (l > box.offsetWidth - bor.offsetWidth) {
+                        l = box.offsetWidth - bor.offsetWidth;
+                    }
+
+                    if (t < 0) {
+                        t = 0;
+                    } else if (t > box.offsetHeight - bor.offsetHeight) {
+                        t = box.offsetHeight - bor.offsetHeight;
+                    }
+                    setChoice();
+                    bor.style.left = l + 'px';
+                    bor.style.top = t + 'px';
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <img id="boxImg" src="qian02.jpg" alt="">
+        <img id="boxImgc" src="qian02.jpg" alt="">
+        <div class="bor" id="bor">
+            <div class="topLeft" id="topLeft"></div>
+            <div class="topCenter" id="topCenter"></div>
+            <div class="topRight" id="topRight"></div>
+            <div class="cenLeft" id="cenLeft"></div>
+            <div class="cenRight" id="cenRight"></div>
+            <div class="botLeft" id="botLeft"></div>
+            <div class="botCenter" id="botCenter"></div>
+            <div class="botRight" id="botRight"></div>
+        </div>
+    </div>
+</body>
+
+</html>
